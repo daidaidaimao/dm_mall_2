@@ -59,6 +59,9 @@ export default {
         },
         gozhuce: function(){
             this.$router.push('/register')
+        },
+        resetForm(formName){
+            this.$refs[formName].resetFields();
         }
     }
 }

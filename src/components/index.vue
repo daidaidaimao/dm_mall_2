@@ -13,7 +13,7 @@
             {{status}}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-plus">个人中心</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-plus" command = "person">个人中心</el-dropdown-item>
             <el-dropdown-item icon="el-icon-circle-plus" command = "out">退出</el-dropdown-item>
             <!-- <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
             <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
@@ -93,6 +93,26 @@ export default {
             alert(resp.data.message);
             this.$router.go(0);
           })
+        }else if(command === "person"){
+          let ticket = this.$cookies.get("TICKET");
+          getRequest('/user/query/'+ticket).then( resp => {
+            if (resp.data.status === 201){
+              alert(resp.data.message);
+              getRequest("/user/out").then( resp => {
+
+                this.$router.push("/login")
+                this.$router.go(0);
+              }) 
+            }else{
+              // alert("进入个人中心");
+              this.$router.push('/detail/'+ticket.substr(19));
+            }
+          })
+          // if(ticket!==null){
+          //   this.$router.push('/');
+          // }else{
+          //   this.$router.push('/login');
+          // }
         }
       },
     // refresh () {
@@ -113,7 +133,4 @@ export default {
 </script>
 
 <style scoped>
-.cnm{
-  height: 2000px;
-}
 </style>

@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@smallwei/avue": "^2.3.4",
+    "ant-design-vue": "^1.4.10",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.1.0",
+    "buefy": "^0.8.9",
     "echarts": "^4.6.0",
     "element-ui": "^2.13.0",
     "vue": "^2.5.2",
