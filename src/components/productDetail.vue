@@ -1,4 +1,5 @@
 <template>
+<div>
     <el-container>
     <el-aside>
         <img :src="product.productImgurl" class="picture">
@@ -30,8 +31,10 @@
         </el-main>
     </el-container>
     </el-container>
+    
+    <p v-html="product.quill"></p>
 
-
+</div>
 
 
     <!-- <div class="productDetail" >

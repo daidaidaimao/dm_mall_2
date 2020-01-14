@@ -23,19 +23,63 @@
           <img :src="product.productImgurl" class="picture">
           <input type="file"  name="imgOne" @change="onUpload($event)" >
         </el-form-item>
+
+
+        <input type="file"  class="dddm" @change="onUpload_2($event)" >
+        <quillEditor
+          v-model="product.quill"
+          @blur="onEditorBlur($event)"
+          @focus="onEditorFocus($event)"
+          @ready="onEditorReady($event)"
+          :options="editorOption"
+          ref="QuillEditor"
+        />
+
+
         <el-form-item>
             <el-button type="primary" @click="submitForm('product')">修改</el-button>
             <el-button @click="resetForm('product')">返回</el-button>
         </el-form-item>
+
 </el-form>
 
 </template>
 
 <script>
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+import { quillEditor } from 'vue-quill-editor'
 import {getRequest} from '@/utils/api.js'
 import { postRequest } from '@/utils/api.js' 
 import {uploadFileRequest} from '@/utils/api.js'
+    const toolbarOptions = [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+    
+      [{'header': 1}, {'header': 2}],               // custom button values
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+      [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+      [{'direction': 'rtl'}],                         // text direction
+    
+      [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+      [{'header': [1, 2, 3, 4, 5, 6, false]}],
+    
+      [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+      [{'font': []}],
+      [{'align': []}],
+      ['link', 'image', 'video'],
+      ['clean']                                         // remove formatting button
+    ]
+
+
 export default {
+  components: {
+    quillEditor
+  },
   data: function(){
     return {
       product:{},
@@ -57,6 +101,23 @@ export default {
                 
       },
       fit:"cover",
+       editorOption: {  modules: {
+                        toolbar: {
+                            container: toolbarOptions,  // 工具栏
+                            handlers: {
+                                'image': function (value) {
+                                    if (value) {
+                                        // alert('自定义图片')
+                                        document.querySelector('.dddm').click()
+                                    } else {
+                                        this.quill.format('image', false);
+                                    }
+                                }
+                            }
+                        }
+       }
+      },
+                
     }
   },
   methods:{
@@ -90,15 +151,50 @@ export default {
                 console.log(resp.data)
                 this.product.productImgurl = resp.data;
             })
-        },
+        },    
+        
+      onUpload_2: function(e){
+        let quill = this.$refs.QuillEditor.quill;
+        let formData = new FormData();
+        formData.append("pic",e.target.files[0]);
+        uploadFileRequest("/product/picupload",formData).then(resp=>{
+                  // console.log(resp.data)
+                  // this.product.productImgurl = resp.data;
+            let length = quill.getSelection().index;
+            // 插入图片，res为服务器返回的图片链接地址
+            quill.insertEmbed(length, 'image', resp.data)
+            // 调整光标到最后
+            quill.setSelection(length + 1)
+              })
+      },
+
+      onEditorBlur(quill) {
+        console.log('editor blur!', quill)
+      },
+      onEditorFocus(quill) {
+        console.log('editor focus!', quill)
+      },
+      onEditorReady(quill) {
+        console.log('editor ready!', quill)
+      },
+
+
+
   },
+
   mounted:function(){
     this.initData(this.$route.params.productId);
     // this.initCategory(); 
+
   }
 }
+
+
+
 </script>
 
 <style scoped>
-
+.dddm{
+  display: none;
+}
 </style>
