@@ -6,7 +6,7 @@
     border
     style="width: 100%">
     <el-table-column
-      fixed
+ 
       prop="productName"
       label="商品名称"
       width="180">
@@ -85,7 +85,7 @@ export default {
         getRequest("/product/page?page="+page+"&num="+num).then(resp=>{
             this.product = resp.data.rows;
             this.total = resp.data.total;
-            // console.log(this.product.productCategory)
+            // console.log(this.product)
             
         })
       },
@@ -123,6 +123,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
