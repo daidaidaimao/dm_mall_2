@@ -14,6 +14,7 @@
         <el-form-item>
             <el-button type="primary" @click="submitForm('u')">立即注册</el-button>
             <el-button @click="resetForm('u')">重置</el-button>
+            <el-button @click="gologin('u')">已有账号?点我去登陆</el-button>
         </el-form-item>
     </el-form>
     <el-image
@@ -97,6 +98,9 @@ export default {
         },
         resetForm: function(formName){
             this.$refs[formName].resetFields();
+        },
+        gologin: function(){
+            this.$router.push('/login')
         }
         
         

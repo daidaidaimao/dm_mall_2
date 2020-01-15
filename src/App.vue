@@ -23,8 +23,17 @@ export default {
        this.$nextTick(function(){
           this.isRouterAlive = true
        })
-
- }}
+    },
+    whenclose(){
+      window.onbeforeunload = function(e){
+        var storage = window.localStorage;
+        storage.clear()
+      }
+    }
+ },
+ mounted:function(){
+   this.whenclose();
+ }
 }
 </script>
 

@@ -157,11 +157,6 @@ export default {
     height: 110px;
     background-color: aqua;
 }
-
-
-
-
-
 .test{
     height: 40px;
     /* background-color: aqua; */

@@ -42,18 +42,22 @@ export default {
             fit: 'cover',
         }
     },
+    inject: ['reload'],
     methods:{
         submitForm: function(formName){
             let user = this.user; 
                 postRequest('/user/login',user).then( resp => {
                     if(resp.data.status === 200){
                     // alert("");
+                        alert(resp.data.message)
                         this.$router.push('/');
-                        this.$router.go(0);
+                        // this.$router.go(0);
+                        this.reload();
                     }
                     else{
                         alert(resp.data.message);
-                        this.resetForm(formName);
+                        // this.resetForm(formName);
+                        this.user.password = "";
                         }
                     }) 
         },

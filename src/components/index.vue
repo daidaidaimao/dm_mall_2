@@ -45,6 +45,7 @@
 
 <script>
 import {getRequest} from '@/utils/api'
+import {postRequest} from '@/utils/api'
 import productList from '@/components/productList'
 export default {
   name: 'index',
@@ -60,17 +61,18 @@ export default {
       
     }
   },
+  inject: ['reload'],
   computed:{
     key(){
       return this.$route.name ? this.$route.name +  +new Date():this.$route+  + new Date() 
     }
   },
+  inject: ['reload'],
   methods: {
     handleSelect : function(key,keyPath){
       // console.log(key, keyPath);
       if(key == 1){
         this.$router.push('/');
-        
       }else if(key == 3){
         this.$router.push('/login');
       }else if(key ==2) {
@@ -81,7 +83,7 @@ export default {
       let ticket = this.$cookies.get("TICKET");
       if(ticket!==null){
         this.show = true;
-        this.status = "欢迎您"+ticket.substr(19);
+        this.status = "欢迎您"+ticket.substr(42);
         // this.$forceUpdate();
       }
 
@@ -89,9 +91,11 @@ export default {
     },
     handleCommand: function(command) {
         if (command === "out"){
-          getRequest('/user/out').then( resp => {
-            alert(resp.data.message);
-            this.$router.go(0);
+          let ticket = this.$cookies.get("TICKET");
+          getRequest('/user/out?ticket='+ticket).then( resp => {
+            this.$cookies.remove("TICKET");
+            // this.$router.go(0);
+            this.reload()
           })
         }else if(command === "person"){
           let ticket = this.$cookies.get("TICKET");
@@ -99,9 +103,9 @@ export default {
             if (resp.data.status === 201){
               alert(resp.data.message);
               getRequest("/user/out").then( resp => {
-
                 this.$router.push("/login")
-                this.$router.go(0);
+                // this.$router.go(0);
+                this.reload();
               }) 
             }else{
               // alert("进入个人中心");
@@ -115,6 +119,24 @@ export default {
           // }
         }
       },
+      queryTicket(){
+        let ticket = this.$cookies.get("TICKET");
+        if(ticket !== null){
+        getRequest('/user/query/'+ticket).then( resp => {
+          if(resp.data.status === 201){
+            this.$cookies.remove("TICKET");
+            alert(resp.data.message);
+            this.reload();
+          //   getRequest('/user/out').then( resp => {
+          //   // alert(resp.data.message);
+          //   // this.$router.go(0);
+          //   this.reload()
+          // })
+            // this.reload();
+          }
+        })
+        }
+      },
     // refresh () {
     //   this.$router.replace({
     //   path: '/refresh',
@@ -126,6 +148,7 @@ export default {
   },
   mounted:function(){
     this.getStatus();
+    this.queryTicket();
     // this.$root.reload()
     // this.refresh();
   }
