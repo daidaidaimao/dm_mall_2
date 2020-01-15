@@ -23,8 +23,6 @@
           <img :src="product.productImgurl" class="picture">
           <input type="file"  name="imgOne" @change="onUpload($event)" >
         </el-form-item>
-
-
         <input type="file"  class="dddm" @change="onUpload_2($event)" >
         <quillEditor
           v-model="product.quill"
@@ -120,6 +118,7 @@ export default {
                 
     }
   },
+  inject: ['reload'],
   methods:{
     initData: function(val){
       // console.log(this.product.productImgurl);
@@ -135,7 +134,8 @@ export default {
       postRequest("/product/update",this.product).then( resp => {
         if(resp.data.status == 200){
           alert("修改成功");
-          this.$router.go(0);
+          // this.$router.go(0);
+          this.reload();
         }else{
           alert(resp.data.message);  
         }

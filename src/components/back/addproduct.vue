@@ -29,6 +29,7 @@
             <input type="file"  name="imgOne" @change="onUpload($event)" >
         </el-form-item>
         <el-form-item>
+            <el-button type="primary" @click ="approval_test('prodcut')" v-show="false">提交审批</el-button>
             <el-button type="primary" @click="submitForm('product')">立即创建</el-button>
             <el-button @click="resetForm('product')">重置</el-button>
         </el-form-item>
@@ -39,7 +40,8 @@
 import {getRequest} from '@/utils/api.js'
 import { postRequest } from '@/utils/api.js' 
 import {uploadFileRequest} from '@/utils/api.js'
-import SelectTree from "@/components/utils/test";
+import SelectTree from "@/components/utils/test"
+import {testRequest} from '@/utils/api.js'
 export default {
     name:'addproduct',
     components:{
@@ -83,14 +85,51 @@ export default {
                     { required: true, message: '请输入商品数量', trigger: 'blur' },
                 ],
                 
+            },
+            approval:{
+                productMessage: {
+                    productId:"",
+                    productName:"",
+                    productCategory:"",
+                    productNum:"",
+                    productPrice:"",
+                    productDescription:"",
+                    productImgurl:"",
+                    // categoryName:"",
+                    sale:"",
+                },
+                status:"",
+                createTime:"",
+                finshTime:"",
+                message:"",
             }
         }
     },
+    inject: ['reload'],
     methods:{
         getValue(value){
             this.valueId = value
             console.log(this.valueId);
             this.product.productCategory = value;
+        },
+        approval_test(formName){
+            let ppp = this.product;
+            this.approval.productMessage = ppp;
+            let data_test = {
+                // id  :'1',
+                finshTime:"",
+                message:"",
+                createTime:'',
+                status :'',
+                data : JSON.stringify(this.approval)
+            }
+            console.log(data_test);
+            testRequest("/product/addApproval",data_test).then( resp => {
+                if(resp.data.status == 200){
+                    alert("提交审批成功"+resp.data.data);
+                    this.$router.go(0);
+                }
+            })
         },
         submitForm(formName) {
             
@@ -99,7 +138,8 @@ export default {
                 postRequest("/product/add",this.product).then( resp => {
                     if(resp.data.status == 200){
                         alert("添加成功");
-                        this.$router.go(0);
+                        // this.$router.go(0);
+                        this.reload();
                     }else{
                         alert("添加失败");  
                     }

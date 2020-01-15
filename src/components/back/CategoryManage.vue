@@ -66,6 +66,7 @@ import {postRequest} from '@/utils/api'
         fit:"cover"
 
       }},
+    inject: ['reload'],
     methods: {
 
         getCategory(){
@@ -94,7 +95,8 @@ import {postRequest} from '@/utils/api'
             postRequest('/product/addNode?parentId='+this.parentId+"&name="+this.name).then(resp => {
                 if(resp.status === 200){
                     alert(resp.data.message);
-                    this.$router.go(0);
+                    // this.$router.go(0);
+                    this.reload();
                 }else{
                     alert(resp.data.message);
                 }
@@ -109,7 +111,8 @@ import {postRequest} from '@/utils/api'
                 getRequest('/product/deleteNode?id='+data.id).then(resp => {
                     if(resp.data.status == 200){
                         alert(resp.data.message);
-                        this.$router.go(0);
+                        // this.$router.go(0);
+                        this.reload()
                     }else{
                         alert(resp.data.message);
                     }

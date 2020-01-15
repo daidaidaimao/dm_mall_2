@@ -93,7 +93,7 @@ export default {
             // let _plist = this.$cookies.get("plist");
             // let _pNum  = this.$cookies.get("pNum");
             // if( _pNum === null||_plist===null){
-                getRequest("/product/page?page="+page+"&num="+num).then(resp =>{
+                getRequest("/product/pageFront?page="+page+"&num="+num).then(resp =>{
                 this.plist = resp.data.rows;
                 this.total = resp.data.total;
                 })

@@ -1,24 +1,24 @@
 import axios from 'axios'
+import Qs from 'qs';
 let base = '';
-export const postImgRequest = (url, params) => {
-      return axios({
-        method: 'post',
-        url: `${base}${url}`,
-        data: params,
 
-        transformRequest: [function (data) {
-          // Do whatever you want to transform the data
-          let ret = ''
-          for (let it in data) {
-            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-          }
-          return ret
-        }],
-        headers: {
-              "Content-Type": "multipart/form-data"
-        }
-      });
-    }
+export const testRequest = (url,params) => {
+    return axios({
+        method: 'post',
+        url: `${base}${url}`,
+        data:params,
+        transformRequest : [function(data){
+            return Qs.stringify(data)
+        }],
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'  //必须设置传输方式
+         }
+    });
+}
+
+
+
+
 export const postRequest = (url, params) => {
   return axios({
     method: 'post',
