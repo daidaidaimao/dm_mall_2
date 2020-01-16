@@ -8,8 +8,6 @@ import '@smallwei/avue/lib/index.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueCookies from 'vue-cookies'
-import layer from 'vue-layer'
-import 'vue-layer/lib/vue-layer.css';
 import ECharts from 'vue-echarts' 
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
@@ -23,7 +21,7 @@ import 'buefy/dist/buefy.css'
 // Vue.use(Input)
 Vue.use(Buefy)
 Vue.component('v-chart', ECharts)
-Vue.prototype.$layer = layer(Vue);
+
 Vue.use(VueCookies)
 Vue.use(ElementUI);
 Vue.use(Avue);
