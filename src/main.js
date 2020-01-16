@@ -19,12 +19,10 @@ import 'buefy/dist/buefy.css'
 // Vue.use(Antd);
 // import { Table, Input } from 'buefy'
 // import 'buefy/dist/buefy.css'
-
 // Vue.use(Table)
 // Vue.use(Input)
 Vue.use(Buefy)
 Vue.component('v-chart', ECharts)
-
 Vue.prototype.$layer = layer(Vue);
 Vue.use(VueCookies)
 Vue.use(ElementUI);
