@@ -73,6 +73,9 @@ export default new Router({
         },{
           path:'/completeInfo/:username_detail',
           component:registerDetail => import('@/components/user/registerDetail')
+        },{
+          path:'/showCart/:userId',
+          component:shoppingcart => import('@/components/user/shoppingCart')
         }
 
 

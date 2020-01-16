@@ -17,6 +17,11 @@ import 'buefy/dist/buefy.css'
 // import Antd from 'ant-design-vue';
 // Vue.config.productionTip = false;
 // Vue.use(Antd);
+// import { Table, Input } from 'buefy'
+// import 'buefy/dist/buefy.css'
+
+// Vue.use(Table)
+// Vue.use(Input)
 Vue.use(Buefy)
 Vue.component('v-chart', ECharts)
 

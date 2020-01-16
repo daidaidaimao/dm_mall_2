@@ -2,7 +2,7 @@
 <div>
     <el-form :model="u" :rules="rules" ref="u" label-width="100px" class="demo-ruleForm">
         <el-form-item label="用户名" prop="username">
-        <el-input placeholder="请输入内容" v-model="u.username" maxlength="10" clearable></el-input>
+        <el-input placeholder="请输入内容" v-model="u.username" maxlength="10" clearable onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
         </el-form-item>
         
         <el-form-item label="请输入密码" prop="password">

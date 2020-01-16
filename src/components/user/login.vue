@@ -2,7 +2,7 @@
     <div class="box">
         <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm" >
             <el-form-item label="用户名" prop="username">
-                <el-input v-model="user.username" ></el-input>
+                <el-input v-model="user.username" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
                 <el-input placeholder="请输入密码" v-model="user.password" show-password></el-input>

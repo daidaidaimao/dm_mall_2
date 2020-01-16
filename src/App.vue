@@ -24,6 +24,9 @@ export default {
           this.isRouterAlive = true
        })
     },
+      queryTicket(){
+        
+      },
     whenclose(){
       window.onbeforeunload = function(e){
         var storage = window.localStorage;

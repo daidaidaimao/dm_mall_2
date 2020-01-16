@@ -77,6 +77,25 @@ export default {
         this.$router.push('/login');
       }else if(key ==2) {
         this.$router.push('/daimao');
+      }else if(key ==4){
+          let ticket = this.$cookies.get("TICKET");
+          if(ticket === null){
+              alert("还未登陆，点击确定转入登陆界面");
+              this.$router.push('/login');
+          }else{
+              getRequest('/user/query/'+ticket).then( resp =>{
+                if(resp.data.status === 201){
+                  this.$cookies.remove("TICKET");
+                  alert(resp.data.message);
+                  this.reload();
+                }else{
+                  let username = ticket.substr(42);
+                  getRequest('/user/queryUserId?username='+username).then(resp =>{
+                  this.$router.push('/showCart/'+resp.data);
+                  })
+                }
+              })
+          }
       }
     },
     getStatus: function(){
@@ -109,7 +128,7 @@ export default {
               }) 
             }else{
               // alert("进入个人中心");
-              this.$router.push('/detail/'+ticket.substr(19));
+              this.$router.push('/detail/'+ticket.substr(42));
             }
           })
           // if(ticket!==null){

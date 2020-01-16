@@ -22,12 +22,12 @@
              <el-divider></el-divider>
             <div class="num_1">
                 <span class="num_2">数量</span>
-                <input type="number" v-model="p_num" placeholder="1" class="num_3">
-                <span class="kucun">(库存：{{product.productNum}}件)</span>
+                <input type="number" v-model="p_num" placeholder="1" class="num_3" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')">
+                <span class="kucun">(库存：{{product.productNum}}件)</span> 
             </div>
             <span class="feihua" >承诺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="el-icon-warning"></i>7天无理由</span>
             <span class="mmh">支付&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;信用卡 微信 支付宝</span>
-            <el-button type="primary" class="add"><i class="el-icon-goods"></i>加入购物车   </el-button>
+            <el-button type="primary" class="add" @click="addCart(cart)"><i class="el-icon-goods"></i>加入购物车   </el-button>
         </el-main>
     </el-container>
     </el-container>
@@ -60,13 +60,23 @@
 
 <script>
 import {getRequest} from '@/utils/api'
+import {postRequest} from '@/utils/api'
 export default {
     name: 'productDetail',
     data: function(){
         return {
             product: {},
             p_num : 1,
-            url:[]
+            url:[],
+            cart:{
+                id : "",
+                username:"",
+                productId:"",
+                productImgurl:"",
+                productNum:"",
+                productPrice:"",
+                productName:""
+            },
         }
     },
     methods:{
@@ -74,11 +84,40 @@ export default {
             getRequest("/product/queryOne?productId="+val).then(resp =>{
                 this.product = resp.data;
                 this.url.push(resp.data.productImgurl);
+                this.cart.productId = resp.data.productId;
+                this.cart.productImgurl = resp.data.productImgurl;
+                this.cart.productPrice = resp.data.productPrice;
+                this.cart.productName = resp.data.productName;
+                
             })
         },
         chengnuo : function(){
             
-        }
+        },
+        addCart(val){
+            let ticket = this.$cookies.get("TICKET");
+            if(ticket === null){
+                alert("还未登陆，点击确定转入登陆界面");
+                this.$router.push('/login');
+            }else{
+                getRequest('/user/query/'+ticket).then( resp =>{
+                    if(resp.data.status === 201){
+                        this.$cookies.remove("TICKET");
+                        alert(resp.data.message+"点击确定转入登陆界面");
+                        this.$router.push('/login');
+                        this.reload();
+                    }else{
+                        this.cart.username = ticket.substr(42);
+                        this.cart.productNum = this.p_num;
+                        console.log(this.cart);
+                        postRequest('/user/addCart',val).then( resp => {
+                            // if(resp.data.status === 200)
+                                alert(resp.data.message);
+                        })
+                    }
+                })
+            }
+        },
     },
     mounted:function(){
         this.getProduct(this.$route.params.productId)
