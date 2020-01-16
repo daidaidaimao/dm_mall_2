@@ -12,33 +12,34 @@
             <b-tab-item label="基本信息">
                 <!-- <a-avatar :size="64" icon="user" /> -->
                 <!-- <br/> -->
-                <router-link :to="{path: '/completeInfo/'+u.username }">您的信息尚未完善 点击去完善信息</router-link>
+                <!-- <router-link :to="{path: '/completeInfo/'+u.username }">您的信息尚未完善 点击去完善信息</router-link> -->
                 用户名: {{ u.name }}
                 <el-divider></el-divider>
-                注册时间: {{ }}
+                注册时间:{{ timestampToTime(u.createTime) }}
+                <el-divider></el-divider>
+                性别：{{u.gender}}
+                <el-divider></el-divider>
+                邮箱:{{ u.email}}
+                <el-divider></el-divider>
+                手机号：{{u.phone}}
+                <el-divider></el-divider>
+                <router-link :to="{path: '/completeInfo/'+u.username }">更改</router-link>
             </b-tab-item>
 
             <b-tab-item label="详细信息">
-                Lorem <br>
-                ipsum <br>
-                dolor <br>
-                sit <br>
-                amet.
+                1 <br>
+                2 <br>
+                3 <br>
+                4 <br>
+                还没做好.
             </b-tab-item>
-            <b-tab-item label="购物车">
-                What light is light, if Silvia be not seen? <br>
-                What joy is joy, if Silvia be not by— <br>
-                Unless it be to think that she is by <br>
-                And feed upon the shadow of perfection? <br>
-                Except I be by Silvia in the night, <br>
-                There is no music in the nightingale.
+            <b-tab-item label="我的消息">
+                <!-- <shoppingCart params/> -->
+                还没做好
             </b-tab-item>
 
-            <b-tab-item label="订单">
-                Nunc nec velit nec libero vestibulum eleifend.
-                Curabitur pulvinar congue luctus.
-                Nullam hendrerit iaculis augue vitae ornare.
-                Maecenas vehicula pulvinar tellus, id sodales felis lobortis eget.
+            <b-tab-item label="我的标签">
+                还没做好
             </b-tab-item>
         </b-tabs>
     </section>
@@ -47,7 +48,9 @@
 
 <script>
 import { getRequest } from '@/utils/api.js' 
+
 export default {
+
     data: function(){
         return {
             activeTab:0,
@@ -57,6 +60,16 @@ export default {
         }
     },
     methods: {
+        timestampToTime(timestamp) {
+            var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = date.getDate() + ' ';
+            var h = date.getHours() + ':';
+            var m = date.getMinutes() + ':';
+            var s = date.getSeconds();
+            return Y+M+D;
+        },
         initDetail(val){
             getRequest('/user/detail?username='+val).then( resp => {
                 if(resp.data.status === 200){
@@ -67,10 +80,26 @@ export default {
                     this.$router.push('/user/login');
                 }
             })
+        },
+        initUserId(val){
+            getRequest('/user/queryUserId?username='+val).then(resp=>{
+                return resp.data;
+            })
+        },
+        queryTicket(){
+        let ticket = this.$cookies.get("TICKET");
+          if(ticket === null){
+              alert("还未登陆，点击确定转入登陆界面");
+              this.$router.push('/login');
+          }
         }
+
+
+
     },
     mounted:function(){
         this.initDetail(this.username);
+        this.queryTicket();
     }
 }
 </script>

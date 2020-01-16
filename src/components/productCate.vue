@@ -1,22 +1,55 @@
 <template>
     <div id="productList">
         <!-- 商品展示 -->
-    <div class=" border border-primary " style="width:900px;display:inline-block" >
-    <div class="card" style="width: 18rem;display:inline-block" v-for="p in plist" v-bind:key="p.productId">
-    <el-image
-    style="width: 250px; height: 400px;margin-top :5%"
-    :src="p.productImgurl"
-    :fit="fit"
-    class="pic"></el-image>
-    <!-- <img class="card-img-top" alt = {{p.productName }}/> -->
-        <div class="card-body">
-          <!-- <img :src= {{ p.productImgurl }} > -->
-          <h5 class="card-title overflow-hidden" style="height:25px"><router-link :to="{name: 'productDetail',params:{productId:p.productId}}">{{ p.productName }} </router-link> </h5>
-          <!-- <p class="card-text overflow-hidden" style="height:25px">{{ p.productDescription }}</p> -->
-          <p class="card-text overflow-hidden" style="height:25px">在售：{{ p.productNum }}件</p><h4 class="card-text">价格: {{ p.productPrice }}</h4>
-          <a href="#" class="btn btn-primary">加入购物车</a>
+ <div class="list" v-for="p in plist" v-bind:key="p.productId">
+        <!-- <el-container> -->
+        <img :src="p.productImgurl" class="picture" style="width:300px;height:400px"  @click="goDetail(p.productId)">
+        <!-- <div class="demo-image__preview">
+        <el-image
+        style="width: 250px; height: 400px;margin-top :5%"
+        :src="p.productImgurl"
+        :fit="fit"
+        class="pic"
+        @click="goDetail(p.productId)"
+        ></el-image>
+        </div> -->
+        <!-- <img class="card-img-top" alt = {{p.productName }}/> -->
+            <!-- <el-row class="test">
+            <el-col :span="16" align="middele">
+                    <div> -->
+        <div class="test">
+            <span class="price">￥{{ p.productPrice.toFixed(2) }} </span><p class="baoyou">包邮</p>
+            <p class="sale"> {{p.sale }}人付款</p>
         </div>
+            <!-- <img :src= {{ p.productImgurl }} > -->
+            <!-- <h5 class="name"><router-link :to="{name: 'productDetail',params:{productId:p.productId}}">{{ p.productName }} </router-link> </h5> -->
+            <el-button type="text" @click="toDetail(p.productId)" class="name">{{ p.productName }}</el-button>
+            <!-- <p class="card-text overflow-hidden" style="height:25px">{{ p.productDescription }}</p> -->
+            <!-- <p class="card-text overflow-hidden" style="height:25px">在售：{{ p.productNum }}件</p> -->
+            <!-- <h4 class="card-text">价格: {{ p.productPrice }}</h4> -->
+            <!-- <a href="#" class="btn btn-primary">加入购物车</a> -->
+            <!-- </el-container> -->
+        <div class="guanggao">
+            <el-row :gutter="20">
+            <el-col :span="16"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+            </el-row>
+            <el-row :gutter="20">
+            <el-col :span="8"><div class="grid-content bg-purple">
+                <p class="shop">呆毛的小店</p>
+                </div></el-col>
+            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            </el-row>
+            <el-row :gutter="20">
+            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="16"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            </el-row>
+
     </div>
+      </div>
     <div class="block">
         <el-pagination
         @size-change="handleSizeChange"
@@ -29,7 +62,7 @@
         </el-pagination>
     </div>
     </div>
-    </div>
+    
 </template>
 
 <script>
@@ -84,6 +117,88 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+ .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+.guanggao{
+    height: 110px;
+    background-color: aqua;
+}
+.test{
+    height: 40px;
+    /* background-color: aqua; */
+                display: flex;
+            align-items: center; /*定义body的元素垂直居中*/
+
+}
+.list{
+    border-radius: 3px;
+    display: inline-block;
+    margin: 10px;
+    width: 300px;
+    height: 600px;
+}
+.picture{
+    object-fit: cover;
+}
+.price{
+    font-size: 30px;
+    color: red;
+    display: inline-block;
+    /* float: left; */
+}
+.sale{
+    font-size: 15px;
+    color: grey;
+    display: inline-block;
+    /* text-align: right */
+    /* float: right; */
+    margin-left: 70px;
+}
+.name{
+    width: 250px;
+    color: black;
+    /* line-height: 50px; */
+    text-align: left;
+    font-size: 15px;
+    word-wrap: break-word !important;
+    word-break: break-all !important;
+    white-space: normal !important;
+    
+}
+.baoyou{
+    background-color: coral;
+    font-size: 15px;
+    display: inline-block;
+    color: white;
+    /* text-align: center; */
+    /* margin: 0 auto; */
+    /* line-height: 40px; */
+    /* height: 30px; */
+    /* text-align: center; */
+    
+}
+.shop{
+    font-size: 13px;
+    
+}
 
 </style>

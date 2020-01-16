@@ -60,7 +60,7 @@
     </el-table-column>
   </el-table>
   <div style="margin-top: 20px">
-    价格：{{price}}
+    价格：{{price.toFixed(2)}}
     <el-button type="primary" @click="addOrder(this.checked)">提交订单</el-button>
   </div>
 </div>

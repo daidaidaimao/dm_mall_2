@@ -16,7 +16,7 @@
              <el-divider></el-divider>
         </el-header>
         <el-main>
-            <span class="price">价格：￥{{product.productPrice}}</span>
+            <span class="price">价格：￥{{product.productPrice.toFixed(2)}}</span>
              <el-divider></el-divider>
             <span class="desc"> {{product.productDescription}}</span>
              <el-divider></el-divider>
