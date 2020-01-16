@@ -54,9 +54,7 @@ import {getRequest} from '@/utils/api'
       },
       handleNodeClick(data){
           // console.log(data.id);
-          
             this.$router.push('/cate/'+data.id);
-         
       }
     },
     mounted: function(){

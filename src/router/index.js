@@ -121,13 +121,8 @@ export default new Router({
           path:'addproduct',
           name: 'addproduct',
           component : addproduct => import('@/components/back/addproduct')
-        },{
-          path: 'echart',
-          name: 'echart',
-          component: echart => import('@/components/utils/test')
-        }
+        },
 
-        
       ]
     }
 

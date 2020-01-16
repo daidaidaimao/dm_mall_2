@@ -67,7 +67,6 @@ export default {
       return this.$route.name ? this.$route.name +  +new Date():this.$route+  + new Date() 
     }
   },
-  inject: ['reload'],
   methods: {
     handleSelect : function(key,keyPath){
       // console.log(key, keyPath);
@@ -121,9 +120,10 @@ export default {
           getRequest('/user/query/'+ticket).then( resp => {
             if (resp.data.status === 201){
               alert(resp.data.message);
-              getRequest("/user/out").then( resp => {
-                this.$router.push("/login")
+              getRequest("/user/out?ticket="+ticket).then( resp => {
+                // this.$router.push("/login")
                 // this.$router.go(0);
+                this.$cookies.remove("TICKET");
                 this.reload();
               }) 
             }else{
@@ -145,6 +145,7 @@ export default {
           if(resp.data.status === 201){
             this.$cookies.remove("TICKET");
             alert(resp.data.message);
+            // this.$router.push('/')
             this.reload();
           //   getRequest('/user/out').then( resp => {
           //   // alert(resp.data.message);
