@@ -7,7 +7,8 @@
       <el-menu-item index="2">后台</el-menu-item>
       <el-menu-item index="3" v-show="!show"> 登陆|注册</el-menu-item>
       <el-menu-item index="4" >购物车</el-menu-item>
-      <el-menu-item index="5" v-show="show" style="margin-right:20%">
+      <el-menu-item index="5" >我的订单</el-menu-item>
+      <el-menu-item index="6" v-show="show" style="margin-right:20%">
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
             {{status}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -61,7 +62,6 @@ export default {
       
     }
   },
-  inject: ['reload'],
   computed:{
     key(){
       return this.$route.name ? this.$route.name +  +new Date():this.$route+  + new Date() 
@@ -81,17 +81,44 @@ export default {
           if(ticket === null){
               alert("还未登陆，点击确定转入登陆界面");
               this.$router.push('/login');
+              this.reload();
           }else{
               getRequest('/user/query/'+ticket).then( resp =>{
                 if(resp.data.status === 201){
-                  this.$cookies.remove("TICKET");
                   alert(resp.data.message);
-                  this.reload();
+                  getRequest("/user/out?ticket="+ticket).then( resp => {
+                    this.$cookies.remove("TICKET");
+                    this.reload();
+              }) 
                 }else{
                   let username = ticket.substr(42);
                   getRequest('/user/queryUserId?username='+username).then(resp =>{
                   this.$router.push('/showCart/'+resp.data);
                   })
+                }
+              })
+          }
+      }else if(key ==5){
+          let ticket = this.$cookies.get("TICKET");
+          let username  = ticket.substr(42);
+          if(ticket === null){
+              alert("还未登陆，点击确定转入登陆界面");
+              this.$router.push('/login');
+              this.reload();
+          }else{
+              getRequest('/user/query/'+ticket).then( resp =>{
+                if(resp.data.status === 201){
+                  alert(resp.data.message);
+                  getRequest("/user/out?ticket="+ticket).then( resp => {
+                    this.$cookies.remove("TICKET");
+                    this.reload();
+              }) 
+                }else{
+                  getRequest('/user/queryUserId?username='+username).then( resp =>{
+                      this.$router.push('/myorder/'+resp.data);
+                  })
+                  
+
                 }
               })
           }
@@ -112,7 +139,6 @@ export default {
           let ticket = this.$cookies.get("TICKET");
           getRequest('/user/out?ticket='+ticket).then( resp => {
             this.$cookies.remove("TICKET");
-            // this.$router.go(0);
             this.reload()
           })
         }else if(command === "person"){
@@ -121,8 +147,6 @@ export default {
             if (resp.data.status === 201){
               alert(resp.data.message);
               getRequest("/user/out?ticket="+ticket).then( resp => {
-                // this.$router.push("/login")
-                // this.$router.go(0);
                 this.$cookies.remove("TICKET");
                 this.reload();
               }) 
@@ -168,7 +192,7 @@ export default {
   },
   mounted:function(){
     this.getStatus();
-    this.queryTicket();
+    // this.queryTicket();
     // this.$root.reload()
     // this.refresh();
   }

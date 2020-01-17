@@ -13,7 +13,7 @@
             </el-form-item>
         </el-form>
             <el-image
-      style="width: 55%; height: 70%;margin-top :5%"
+      style="width: 60%; height: 100%;"
       :src="url"
       :fit="fit"
       class="pic"></el-image>

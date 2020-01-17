@@ -76,6 +76,12 @@ export default new Router({
         },{
           path:'/showCart/:userId',
           component:shoppingcart => import('@/components/user/shoppingCart')
+        },{
+          path:'/order/:userId',
+          component:order => import('@/components/user/order')
+        },{
+          path:'/myorder/:userId',
+          component:myOrder => import('@/components/user/myOrder')
         }
 
 

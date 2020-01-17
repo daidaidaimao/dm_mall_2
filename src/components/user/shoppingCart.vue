@@ -60,8 +60,8 @@
     </el-table-column>
   </el-table>
   <div style="margin-top: 20px">
-    价格：{{price.toFixed(2)}}
-    <el-button type="primary" @click="addOrder(this.checked)">提交订单</el-button>
+    价格：{{price}}
+    <el-button type="primary" @click="addOrder(checked)">提交订单</el-button>
   </div>
 </div>
 </template>
@@ -115,13 +115,23 @@ export default {
             this.checked = val;
             let  p = 0
             for(var i = 0;i<this.checked.length;i++){
-               p += this.checked[i].productNum*this.checked[i].productPrice;
+               p += this.checked[i].productNum*this.checked[i].productPrice*100;
             }
-            this.price = p;
-            console.log(p);
+            this.price = p/100;
+            p = 0;
+            // console.log(val);
         },
         addOrder(val){
-
+            console.log(val);
+            if(val.length === 0 ){
+                alert("请选择至少一个商品下单")
+            }else{
+            this.$cookies.set("order",JSON.stringify(val));
+            this.$cookies.set("money",this.price);
+            // getRequest('/user/queryUserId?username='+)
+            this.$router.push('/order/'+this.userId);
+            }
+            
         },
         deleteCart(val){
             getRequest('/user/deleteCart?id='+val).then( resp =>{
