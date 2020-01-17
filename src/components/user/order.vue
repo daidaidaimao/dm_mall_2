@@ -77,14 +77,14 @@ export default {
     data:function(){
         return {
             cart:[],    
-            
             address:"",
             order:{
                 orderMoney:0,
                 address:"",
                 userId:this.$route.params.userId,
                 clist:"",
-            }
+            },
+            
         }
     },
     methods:{
@@ -108,8 +108,8 @@ export default {
             }else{
                 this.cart = JSON.parse(this.$cookies.get(val));
                 this.order.orderMoney = this.$cookies.get("money");
-                // this.order.item = JSON.parse(this.$cookies.get(val));
-                console.log(this.cart);
+                // this.item = JSON.parse(this.$cookies.get(val));
+                // console.log(this.cart);
                     }
                 }
             })
@@ -120,10 +120,13 @@ export default {
             // console.log(this.order);
             // console.log(JSON.stringify(this.order))
             // console.log(JSON.stringify(this.order.item))
-            this.order.clist = JSON.stringify(this.order.item)
+            this.order.clist = JSON.stringify(this.cart)
             console.log(this.order)
             testRequest('/user/addOrder',this.order).then( resp =>{
                 alert("生成订单成功 前往付款")
+                this.$cookies.remove("money");
+                this.$cookies.remove("order");
+                this.$router.push('/pay/'+this.order.orderId);
             })
         }
     },

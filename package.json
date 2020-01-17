@@ -21,6 +21,7 @@
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^0.28.11",
     "echarts": "^4.6.0",
+    "jquery": "^3.4.1",
     "peer": "^0.2.10",
     "postcss-loader": "^2.1.6",
     "qs": "^6.9.1",
@@ -28,7 +29,6 @@
     "vue": "^2.6.11",
     "vue-cookies": "^1.6.1",
     "vue-echarts": "^4.1.0",
-    
     "vue-loader": "^13.7.3",
     "vue-photo-zoom-pro": "^1.2.25",
     "vue-quill-editor": "^3.0.6",

@@ -16,7 +16,7 @@
              <el-divider></el-divider>
         </el-header>
         <el-main>
-            <span class="price">价格：￥{{product.productPrice.toFixed(2)}}</span>
+            <span class="price">价格：￥{{fix(product.productPrice)}}</span>
              <el-divider></el-divider>
             <span class="desc"> {{product.productDescription}}</span>
              <el-divider></el-divider>
@@ -80,6 +80,13 @@ export default {
         }
     },
     methods:{
+        fix(num1){
+            if(typeof(num1)=='undefined'){
+                return num1
+            }else{
+                return Number(num1.toFixed(2))
+            }
+        },
         getProduct : function(val){
             getRequest("/product/queryOne?productId="+val).then(resp =>{
                 this.product = resp.data;

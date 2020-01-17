@@ -1,7 +1,7 @@
 <template>    
 <el-container>
   <el-aside width="200px">
-      <el-menu :default-openeds="['1', '2','3']" @select="handleSelect">
+      <el-menu :default-openeds="['1', '2','3','4']" @select="handleSelect">
       <el-submenu index="1">
         <template slot="title"><i class="el-icon-message"></i>首页</template>
         <el-menu-item-group>
@@ -50,6 +50,14 @@
           <el-menu-item index="3-4-1">选项4-1</el-menu-item>
         </el-submenu>
       </el-submenu>
+      <el-submenu index="4">
+        <template slot="title"><i class="el-icon-setting"></i>订单管理</template>
+        <el-menu-item-group>
+          <template slot="title">订单总览</template>
+          <el-menu-item index="4-1">订单总览</el-menu-item>
+          <!-- <el-menu-item index="3-2">选项2</el-menu-item> -->
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </el-aside>
   <el-container>
@@ -81,6 +89,8 @@
         this.$router.push('/daimao/addproduct')
       }else if(key == '2-6'){
         this.$router.push('/daimao/echart')
+      }else if(key == '4-1'){
+        this.$router.push('/daimao/orderManage')
       }
       }
     }

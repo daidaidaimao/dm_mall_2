@@ -4,9 +4,9 @@
     style="width: 100%"
     >
     <el-table-column type="expand" > 
-      <template>
+      <template slot-scope="scope">
         <el-table
-            :data="list">
+            :data="scope.row.item">
             <el-table-column
                 label="商品名称"
                 prop="productName"
@@ -47,7 +47,7 @@
     <el-table-column
       label="订单状态">
       <template slot-scope="scope">
-          {{ getStatus(scope.row.status) }}<el-button type="primary" size="small">付款 </el-button> <el-button type="primary" size="small">取消订单</el-button>
+          {{ getStatus(scope.row.status) }}<el-button type="primary" size="small" @click="pay(scope.row.orderId)" v-show="dd">付款 </el-button> <el-button  v-show="dd" type="primary" size="small">取消订单</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -60,7 +60,8 @@ export default {
         return{
             userId:this.$route.params.userId,
             order:[],
-            list:[],
+            // list:[],
+            dd:true,
         }
     },
     inject: ['reload'],
@@ -80,10 +81,10 @@ export default {
                     }else{
             getRequest('/user/queryOrder?userId='+val).then( resp => {
                 this.order = resp.data.data;
-                for(var i =0;i<this.order.length;i++){
-                    let list = this.order[i].item
-                    this.list = list;
-                }
+                // for(var i =0;i<this.order.length;i++){
+                //     let list = this.order[i].item
+                //     this.list = list;
+                // }
                 
                 // this.order.item = JSON.parse(this.order.clist);
                 // console.log(this.order);
@@ -97,11 +98,18 @@ export default {
         getStatus(val){
             if(val ==0){
                 return "待付款"
-            }else if(val ==0){
+            }else if(val ==1){
+                // this.dd = false;
                 return "待发货"
             }else if(val == -1){
                 return "订单成功结束"
+            }else if(val == 2){
+                // this.dd = false;
+                return "待收货"
             }
+        },
+        pay(val){
+            this.$router.push('/pay/'+val);
         }
             
             

@@ -82,6 +82,9 @@ export default new Router({
         },{
           path:'/myorder/:userId',
           component:myOrder => import('@/components/user/myOrder')
+        },{
+          path:'/pay/:orderId',
+          component:pay =>import('@/components/user/paymoney')
         }
 
 
@@ -127,7 +130,10 @@ export default new Router({
           path:'addproduct',
           name: 'addproduct',
           component : addproduct => import('@/components/back/addproduct')
-        },
+        },{
+          path:'orderManage',
+          component: orderManage => import('@/components/back/orderManage')
+        }
 
       ]
     }
