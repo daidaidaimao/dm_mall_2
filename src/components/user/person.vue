@@ -1,11 +1,11 @@
 <template>
 <div class="container">
-          <b-field label="Username"
+          <b-field label="userId"
             :label-position="labelPosition"
             type="is-success"
             message="欢迎~"
             >
-            <b-input :value="u.username" maxlength="30" disabled ></b-input>
+            <b-input :value="u.userId" maxlength="30" disabled ></b-input>
         </b-field>
         <section>
         <b-tabs v-model="activeTab">
@@ -23,7 +23,7 @@
                 <el-divider></el-divider>
                 手机号：{{u.phone}}
                 <el-divider></el-divider>
-                <router-link :to="{path: '/completeInfo/'+u.username }">更改</router-link>
+                <router-link :to="{path: '/completeInfo/'+u.userId }">更改</router-link>
             </b-tab-item>
 
             <b-tab-item label="详细信息">
@@ -56,7 +56,7 @@ export default {
             activeTab:0,
             labelPosition: 'on-border',
             u:{},
-            username: this.$route.params.username,
+            userId: this.$route.params.userId,
         }
     },
     methods: {
@@ -71,10 +71,11 @@ export default {
             return Y+M+D;
         },
         initDetail(val){
-            getRequest('/user/detail?username='+val).then( resp => {
+            // let username = this.initUserId(val)
+            getRequest('/user/detail?userId='+val).then( resp => {
                 if(resp.data.status === 200){
-                this.u = resp.data.data;
-                console.log(this.u)
+                    this.u = resp.data.data;
+                    console.log(this.u)
                 }else{
                     alert(resp.data.message);
                     this.$router.push('/user/login');
@@ -86,20 +87,17 @@ export default {
                 return resp.data;
             })
         },
-        queryTicket(){
-        let ticket = this.$cookies.get("TICKET");
-          if(ticket === null){
-              alert("还未登陆，点击确定转入登陆界面");
-              this.$router.push('/login');
-          }
-        }
-
-
-
+        // queryTicket(){
+        // let ticket = this.$cookies.get("TICKET");
+        //   if(ticket === null){
+        //       alert("还未登陆，点击确定转入登陆界面");
+        //       this.$router.push('/login');
+        //   }
+        // }
     },
     mounted:function(){
-        this.initDetail(this.username);
-        this.queryTicket();
+        this.initDetail(this.userId);
+        // this.queryTicket();
     }
 }
 </script>

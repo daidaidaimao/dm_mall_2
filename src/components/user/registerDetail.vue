@@ -1,7 +1,7 @@
 <template>
     <el-form :model="person">
         <el-form-item label="当前账号">
-                <el-input v-model="person.username" disabled></el-input>
+                <el-input v-model="person.userId" disabled></el-input>
          </el-form-item>
          <el-form-item label="用户名">
                 <el-input v-model="person.name" ></el-input>
@@ -46,7 +46,7 @@ export default {
     data: function(){
         return {
             person:{
-                username:this.$route.params.username_detail,
+                username:this.$route.params.userId,
                 avatarUrl:"",
                 gender:"",
                 name:"",
@@ -63,28 +63,28 @@ export default {
     },
     methods:{
         initData(val){
-            let ticket = this.$cookies.get("TICKET");
-            if(ticket === null){
-                alert("还未登陆，点击确定转入登陆界面");
-                this.$router.push('/login');
-            }else{
-                getRequest('/user/query/'+ticket).then( resp =>{
-                    if(resp.data.status === 201){
-                        this.$cookies.remove("TICKET");
-                        alert(resp.data.message);
-                        this.$router.push('/')
-                        // this.reload();
-                    }else{
-                        getRequest('/user/partDetail?username='+val).then( resp =>{
+            // let ticket = this.$cookies.get("TICKET");
+            // if(ticket === null){
+            //     alert("还未登陆，点击确定转入登陆界面");
+            //     this.$router.push('/login');
+            // }else{
+            //     getRequest('/user/query/'+ticket).then( resp =>{
+            //         if(resp.data.status === 201){
+            //             this.$cookies.remove("TICKET");
+            //             alert(resp.data.message);
+            //             this.$router.push('/')
+            //             // this.reload();
+            //         }else{
+                        getRequest('/user/partDetail?userId='+val).then( resp =>{
                             if(resp.data.status ===200){
                                 this.person = resp.data.data;
                             }else{
                                 alert(resp.data.message);
                             }
                         })
-                    }
-                })
-            }
+            //         }
+            //     })
+            // }
         },
         goDetail(val){
             this.$router.push('/detail/'+val);
@@ -94,7 +94,7 @@ export default {
                 // alert('submit!');
                 console.log(this.person);
                 let p = this.person
-                postRequest("/user/addDetail?username="+this.person.username+"&avatarUrl&gender="+this.person.gender+"&name="+this.person.name+"&email="+this.person.email+"&phone="+
+                postRequest("/user/addDetail?userId="+this.person.userId+"&avatarUrl&gender="+this.person.gender+"&name="+this.person.name+"&email="+this.person.email+"&phone="+
                 this.person.phone).then( resp => {
                     alert(resp.data.message);
                     this.reload();

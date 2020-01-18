@@ -22,7 +22,7 @@
              <el-divider></el-divider>
             <div class="num_1">
                 <span class="num_2">数量</span>
-                <input type="number" v-model="p_num" placeholder="1" class="num_3" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')">
+                <input type="number" v-model="p_num" placeholder="1" class="num_3" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')" @change="kucun(p_num,product.productNum)">
                 <span class="kucun">(库存：{{product.productNum}}件)</span> 
             </div>
             <span class="feihua" >承诺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="el-icon-warning"></i>7天无理由</span>
@@ -63,6 +63,7 @@ import {getRequest} from '@/utils/api'
 import {postRequest} from '@/utils/api'
 export default {
     name: 'productDetail',
+    inject: ['reload'],
     data: function(){
         return {
             product: {},
@@ -125,6 +126,13 @@ export default {
                 })
             }
         },
+        kucun(a,b){
+            if(a>b){
+                a = b ;
+                alert("库存不足啦")
+                this.reload()
+            }
+        }
     },
     mounted:function(){
         this.getProduct(this.$route.params.productId)

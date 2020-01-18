@@ -79,20 +79,45 @@ export default {
             checked:[],
         }
     },
+    // beforeRouteEnter:function(to,from,next){
+    //     next( vm ={
+            
+    //     })
+            // let ticket = this.$cookies.get("TICKET");
+            // console.log(ticket);
+            // if(ticket === null){
+            //     alert("还未登陆，点击确定转入登陆界面");
+            //     next('/login')
+            // }else{
+            //     next();
+            // }
+            //     console.log(ticket);
+            //     getRequest('/user/query/'+ticket).then( resp =>{
+            //         if(resp.data.status === 201){
+            //             alert(resp.data.message);
+            //             next('/')
+            //             // this.reload();
+            //         }else{
+            //             console.log(resp.data.data)
+            //             // next();
+            //         }
+            //   })
+            // }  
+    // },
     methods:{
         initUsername(val){
-            let ticket = this.$cookies.get("TICKET");
-            if(ticket === null){
-                alert("还未登陆，点击确定转入登陆界面");
-                this.$router.push('/login');
-            }else{
-                getRequest('/user/query/'+ticket).then( resp =>{
-                    if(resp.data.status === 201){
-                        this.$cookies.remove("TICKET");
-                        alert(resp.data.message);
-                        this.$router.push('/')
-                        // this.reload();
-                    }else{
+            // let ticket = this.$cookies.get("TICKET");
+            // if(ticket === null){
+            //     alert("还未登陆，点击确定转入登陆界面");
+            //     this.$router.push('/login');
+            // }else{
+            //     getRequest('/user/query/'+ticket).then( resp =>{
+            //         if(resp.data.status === 201){
+            //             this.$cookies.remove("TICKET");
+            //             alert(resp.data.message);
+            //             this.$router.push('/')
+            //             // this.reload();
+            //         }else{
                         getRequest('/user/queryUsername?userId='+val).then(resp => {
                             console.log(resp.data);
                             let username = resp.data;
@@ -100,9 +125,9 @@ export default {
                                 this.cart = resp.data.data;
                             })
                         })
-                    }
-                })
-            }
+            //         }
+            //     })
+            // }
             // getRequest('/user/queryUsername?userId='+val).then(resp => {
             //     console.log(resp.data);
             //     let username = resp.data;

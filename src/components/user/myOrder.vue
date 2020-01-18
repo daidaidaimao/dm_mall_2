@@ -67,18 +67,18 @@ export default {
     inject: ['reload'],
     methods:{
         initOrder(val){
-            let ticket = this.$cookies.get("TICKET");
-            if(ticket === null){
-                alert("还未登陆，点击确定转入登陆界面");
-                this.$router.push('/login');
-            }else{
-                getRequest('/user/query/'+ticket).then( resp =>{
-                    if(resp.data.status === 201){
-                        this.$cookies.remove("TICKET");
-                        alert(resp.data.message);
-                        this.reload();
-                        this.$router.push('/')
-                    }else{
+            // let ticket = this.$cookies.get("TICKET");
+            // if(ticket === null){
+            //     alert("还未登陆，点击确定转入登陆界面");
+            //     this.$router.push('/login');
+            // }else{
+            //     getRequest('/user/query/'+ticket).then( resp =>{
+            //         if(resp.data.status === 201){
+            //             this.$cookies.remove("TICKET");
+            //             alert(resp.data.message);
+            //             this.reload();
+            //             this.$router.push('/')
+            //         }else{
             getRequest('/user/queryOrder?userId='+val).then( resp => {
                 this.order = resp.data.data;
                 // for(var i =0;i<this.order.length;i++){
@@ -91,9 +91,9 @@ export default {
                 // console.log(this.order.item)
                 // console.log(this.list)
             })
-                    }
-                })
-            }
+            //         }
+            //     })
+            // }
         },
         getStatus(val){
             if(val ==0){

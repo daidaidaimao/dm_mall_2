@@ -89,18 +89,18 @@ export default {
     },
     methods:{
         initData(val){
-            let ticket = this.$cookies.get("TICKET");
-             if(ticket === null){
-                alert("还未登陆，点击确定转入登陆界面");
-                this.$router.push('/login');
-            }else{
-                getRequest('/user/query/'+ticket).then( resp =>{
-                    if(resp.data.status === 201){
-                        this.$cookies.remove("TICKET");
-                        alert(resp.data.message);
-                        this.$router.push('/')
-                        // this.reload();
-            }else{
+            // let ticket = this.$cookies.get("TICKET");
+            //  if(ticket === null){
+            //     alert("还未登陆，点击确定转入登陆界面");
+            //     this.$router.push('/login');
+            // }else{
+            //     getRequest('/user/query/'+ticket).then( resp =>{
+            //         if(resp.data.status === 201){
+            //             this.$cookies.remove("TICKET");
+            //             alert(resp.data.message);
+            //             this.$router.push('/')
+            //             // this.reload();
+            // }else{
             let list = this.$cookies.get(val);
             if(list === null){
                 alert("当前订单已过期 请重新下单");
@@ -111,9 +111,10 @@ export default {
                 // this.item = JSON.parse(this.$cookies.get(val));
                 // console.log(this.cart);
                     }
-                }
-            })
-        }
+
+                // }
+            // })
+            
             
         },
         onSubmit(){

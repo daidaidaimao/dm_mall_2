@@ -59,7 +59,7 @@ export default {
       show :false,
       url: require('@/assets/logodm.png'),
       fit: 'cover',
-      
+      ticket :this.$cookies.get("TICKET"),
     }
   },
   computed:{
@@ -69,6 +69,7 @@ export default {
   },
   methods: {
     handleSelect : function(key,keyPath){
+      let ticket = this.$cookies.get("TICKET");
       // console.log(key, keyPath);
       if(key == 1){
         this.$router.push('/');
@@ -77,84 +78,84 @@ export default {
       }else if(key ==2) {
         this.$router.push('/daimao');
       }else if(key ==4){
-          let ticket = this.$cookies.get("TICKET");
+          
           if(ticket === null){
               alert("还未登陆，点击确定转入登陆界面");
               this.$router.push('/login');
               this.reload();
           }else{
-              getRequest('/user/query/'+ticket).then( resp =>{
-                if(resp.data.status === 201){
-                  alert(resp.data.message);
-                  getRequest("/user/out?ticket="+ticket).then( resp => {
-                    this.$cookies.remove("TICKET");
-                    this.reload();
-              }) 
-                }else{
-                  let username = ticket.substr(42);
-                  getRequest('/user/queryUserId?username='+username).then(resp =>{
-                  this.$router.push('/showCart/'+resp.data);
-                  })
-                }
-              })
+            this.$router.push('/showCart/'+ticket);
+          //     getRequest('/user/query/'+ticket).then( resp =>{
+          //       if(resp.data.status === 201){
+          //         alert(resp.data.message);
+          //         getRequest("/user/out?ticket="+ticket).then( resp => {
+          //           this.$cookies.remove("TICKET");
+          //           this.reload();
+          //     }) 
+                // }else{
+                  // let username = ticket.substr(42);
+                  // getRequest('/user/queryUserId?username='+username).then(resp =>{
+                  //   this.$router.push('/showCart/'+resp.data);
+                  // })
           }
+                // }
+              // })
+          // }
       }else if(key ==5){
-          let ticket = this.$cookies.get("TICKET");
-          let username  = ticket.substr(42);
-          if(ticket === null){
-              alert("还未登陆，点击确定转入登陆界面");
-              this.$router.push('/login');
-              this.reload();
-          }else{
-              getRequest('/user/query/'+ticket).then( resp =>{
-                if(resp.data.status === 201){
-                  alert(resp.data.message);
-                  getRequest("/user/out?ticket="+ticket).then( resp => {
-                    this.$cookies.remove("TICKET");
-                    this.reload();
-              }) 
-                }else{
-                  getRequest('/user/queryUserId?username='+username).then( resp =>{
-                      this.$router.push('/myorder/'+resp.data);
-                  })
-                  
-
-                }
-              })
-          }
+          // let ticket = this.$cookies.get("TICKET");
+          // let username  = ticket.substr(42);
+          // if(ticket === null){
+          //     alert("还未登陆，点击确定转入登陆界面");
+          //     this.$router.push('/login');
+          //     this.reload();
+          // }else{
+          //     getRequest('/user/query/'+ticket).then( resp =>{
+          //       if(resp.data.status === 201){
+          //         alert(resp.data.message);
+          //         getRequest("/user/out?ticket="+ticket).then( resp => {
+          //           // this.$cookies.remove("TICKET");
+          //           this.reload();
+          //     }) 
+          //       }else{
+                  // getRequest('/user/queryUserId?username='+username).then( resp =>{
+                      this.$router.push('/myorder/'+ticket);
+          //         })
+          //       }
+          //     })
+          // }
       }
     },
-    getStatus: function(){
-      let ticket = this.$cookies.get("TICKET");
-      if(ticket!==null){
-        this.show = true;
-        this.status = "欢迎您"+ticket.substr(42);
-        // this.$forceUpdate();
-      }
-
-      console.log("ticket:"+ticket);
-    },
+    // getStatus: function(){
+    //   let ticket = this.$cookies.get("TICKET");
+      
+    //   // if(ticket!==null){
+    //     // this.show = true;
+    //     // this.status = "欢迎您"+ticket.substr(42);
+    //     // this.$forceUpdate();
+    //   // console.log("ticket:"+ticket);
+    // },
     handleCommand: function(command) {
+      let ticket = this.$cookies.get("TICKET");
         if (command === "out"){
           let ticket = this.$cookies.get("TICKET");
-          getRequest('/user/out?ticket='+ticket).then( resp => {
+            getRequest('/user/out?ticket='+ticket).then( resp => {
             this.$cookies.remove("TICKET");
             this.reload()
           })
         }else if(command === "person"){
-          let ticket = this.$cookies.get("TICKET");
-          getRequest('/user/query/'+ticket).then( resp => {
-            if (resp.data.status === 201){
-              alert(resp.data.message);
-              getRequest("/user/out?ticket="+ticket).then( resp => {
-                this.$cookies.remove("TICKET");
-                this.reload();
-              }) 
-            }else{
+          // let ticket = this.$cookies.get("TICKET");
+          // getRequest('/user/query/'+ticket).then( resp => {
+          //   if (resp.data.status === 201){
+          //     alert(resp.data.message);
+          //     getRequest("/user/out?ticket="+ticket).then( resp => {
+          //       this.$cookies.remove("TICKET");
+          //       this.reload();
+          //     }) 
+          //   }else{
               // alert("进入个人中心");
-              this.$router.push('/detail/'+ticket.substr(42));
-            }
-          })
+              this.$router.push('/detail/'+ticket);
+          //   }
+          // })
           // if(ticket!==null){
           //   this.$router.push('/');
           // }else{
@@ -177,6 +178,14 @@ export default {
           //   this.reload()
           // })
             // this.reload();
+          }else{
+            this.show = true;
+            getRequest('/user/queryUsername?userId='+ticket).then( resp =>{
+              // console.log(resp.data)
+            this.status = "欢迎您"+resp.data;
+            })
+            
+            // this.$forceUpdate();
           }
         })
         }
@@ -191,8 +200,8 @@ export default {
     // }
   },
   mounted:function(){
-    this.getStatus();
-    // this.queryTicket();
+    // this.getStatus();
+    this.queryTicket();
     // this.$root.reload()
     // this.refresh();
   }

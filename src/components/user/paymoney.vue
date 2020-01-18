@@ -30,13 +30,11 @@ export default {
                     for(var i = 0;i<this.item.length;i++){
                     getRequest('/user/queryCartId?productId='+this.item[i].productId+"&username="+username).then( resp =>{
                         getRequest('/user/deleteCart?id='+resp.data).then( resp=>{
-                            
+                            console.log("删除购物车内商品:"+this.item[i].productName)           
                         })
                     })
                 }
-                
                 })
-                
             })
             alert("付款成功")
         }

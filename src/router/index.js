@@ -21,8 +21,10 @@ import Router from 'vue-router'
 // import person from 
 // import registerDetail from 
 Vue.use(Router)
+import {getRequest} from '@/utils/api'
 
 export default new Router({
+  inject:['reload'],
   routes: [
     {
       path:'/test',
@@ -34,6 +36,7 @@ export default new Router({
       name: 'index',
       component: index => import('@/components/index'),
       redirect:'/list',
+      
       children: [
         {
           path:'list',
@@ -67,23 +70,106 @@ export default new Router({
           name: 'product_null',
           component:blank => import('@/components/utils/blank')
         },{
-          path:'/detail/:username',
+          path:'/detail/:userId',
           name: 'person',
+          beforeEnter: (to,from,next)=>{
+            let userId = to.params.userId;
+            getRequest('/user/query/'+userId).then( resp =>{
+              if(resp.data.status ===200){
+                next()
+              }else{
+                alert(resp.data.message);
+                next('/')
+              }
+            })
+          },
           component: person => import('@/components/user/person'),
         },{
-          path:'/completeInfo/:username_detail',
+          path:'/completeInfo/:userId',
+          beforeEnter: (to,from,next)=>{
+            let userId = to.params.userId;
+            getRequest('/user/query/'+userId).then( resp =>{
+              if(resp.data.status ===200){
+                next()
+              }else{
+                alert(resp.data.message);
+                next('/')
+              }
+            })
+          },
           component:registerDetail => import('@/components/user/registerDetail')
         },{
           path:'/showCart/:userId',
+          beforeEnter: (to,from,next)=>{
+            let userId = to.params.userId;
+            getRequest('/user/query/'+userId).then( resp =>{
+              if(resp.data.status ===200){
+                next()
+              }else{
+                alert(resp.data.message);
+                next('/')
+              }
+            })
+          },
+          //   let ticket = from.ticket;
+          //   if(ticket === null){
+          //       alert("还未登陆，点击确定转入登陆界面");
+          //       next('/login')
+          //   }else{
+          //       getRequest('/user/query/'+ticket).then( resp =>{
+          //           if(resp.data.status === 201){
+          //               alert(resp.data.message);
+          //               next('/')
+          //               // this.reload();
+          //           }else{
+          //               console.log(resp.data.data)
+          //               // next();
+          //           }
+          //     })
+          //   }  
+          // },
           component:shoppingcart => import('@/components/user/shoppingCart')
         },{
           path:'/order/:userId',
+          beforeEnter: (to,from,next)=>{
+            let userId = to.params.userId;
+            getRequest('/user/query/'+userId).then( resp =>{
+              if(resp.data.status ===200){
+                next()
+              }else{
+                alert(resp.data.message);
+                next('/')
+              }
+            })
+          },
           component:order => import('@/components/user/order')
         },{
           path:'/myorder/:userId',
+          beforeEnter: (to,from,next)=>{
+            let userId = to.params.userId;
+            getRequest('/user/query/'+userId).then( resp =>{
+              if(resp.data.status ===200){
+                next()
+              }else{
+                alert(resp.data.message);
+                next('/')
+              }
+            })
+          },
           component:myOrder => import('@/components/user/myOrder')
         },{
           path:'/pay/:orderId',
+          beforeEnter: (to,from,next)=>{
+            let userId = to.params.userId;
+            getRequest('/user/query/'+userId).then( resp =>{
+              if(resp.data.status ===200){
+                next()
+              }else{
+                alert(resp.data.message);
+                next('/')
+              }
+            })
+          },
           component:pay =>import('@/components/user/paymoney')
         }
 
@@ -133,6 +219,9 @@ export default new Router({
         },{
           path:'orderManage',
           component: orderManage => import('@/components/back/orderManage')
+        },{
+          path: 'userManage',
+          component: userManage =>import('@/components/back/userManage')
         }
 
       ]

@@ -23,7 +23,7 @@
         </div>
             <!-- <img :src= {{ p.productImgurl }} > -->
             <!-- <h5 class="name"><router-link :to="{name: 'productDetail',params:{productId:p.productId}}">{{ p.productName }} </router-link> </h5> -->
-            <el-button type="text" @click="toDetail(p.productId)" class="name">{{ p.productName }}</el-button>
+            <el-button type="text" @click="goDetail(p.productId)" class="name">{{ p.productName }}</el-button>
             <!-- <p class="card-text overflow-hidden" style="height:25px">{{ p.productDescription }}</p> -->
             <!-- <p class="card-text overflow-hidden" style="height:25px">在售：{{ p.productNum }}件</p> -->
             <!-- <h4 class="card-text">价格: {{ p.productPrice }}</h4> -->
@@ -109,7 +109,11 @@ export default {
         handleCurrentChange(val) {
             // console.log(`当前页: ${val}`);
             this.productList(val,5);
-        }
+        },
+        goDetail(val){
+            this.$router.push({name: 'productDetail',params:{productId:val}})
+        },
+
     },
     mounted:function(){
         this.productList(1,5);

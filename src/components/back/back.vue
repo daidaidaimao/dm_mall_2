@@ -91,6 +91,8 @@
         this.$router.push('/daimao/echart')
       }else if(key == '4-1'){
         this.$router.push('/daimao/orderManage')
+      }else if(key == '3-1'){
+        this.$router.push('/daimao/userManage')
       }
       }
     }
