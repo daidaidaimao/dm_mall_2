@@ -115,13 +115,16 @@ export default {
                         this.$router.push('/login');
                         this.reload();
                     }else{
-                        this.cart.username = ticket.substr(42);
-                        this.cart.productNum = this.p_num;
-                        console.log(this.cart);
-                        postRequest('/user/addCart',val).then( resp => {
-                            // if(resp.data.status === 200)
-                                alert(resp.data.message);
+                        getRequest('/user/queryUsername?userId='+ticket).then( resp => {
+                            this.cart.username = resp.data;
+                            this.cart.productNum = this.p_num;
+                            console.log(this.cart);
+                            postRequest('/user/addCart',val).then( resp => {
+                                // if(resp.data.status === 200)
+                                    alert(resp.data.message);
+                            })
                         })
+                        
                     }
                 })
             }

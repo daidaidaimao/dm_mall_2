@@ -9,8 +9,9 @@
     <div>Ideal、Nginx、VS Code、Maven、Navicat</div>
     <div>相关技术：</div>
     <div>Springboot(Mybatis、Redis)、Elasticsearch、Vue.js、Mysql</div>
-    <div>待补充</div>
-    <div>待补充待补充</div>
+    <div>开发历程</div>
+    <div>现在是春节，在此前的一个月，在公司实习没事干，把DM_MALL的基础功能完善了，商品的 增删查改 上架、下架，用户的登陆注册封禁，登陆逻辑的判断，图片上传的单独模块，购物车、订单功能基础依据做好，
+      后面还想加个工作流、和消息队列，看时间来不来得及吧，最后因为选题里就突出的推荐功能也需要完成，还挺麻烦的，现在还没有什么头绪</div>
     <div style="text-align: left"><h2>特色</h2></div>
     <el-collapse v-model="activeNames" @change="handleChange">
   <el-collapse-item title="一致性 Consistency" name="1">

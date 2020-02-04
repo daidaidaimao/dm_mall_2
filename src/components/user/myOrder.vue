@@ -3,7 +3,7 @@
     :data="order"
     style="width: 100%"
     >
-    <el-table-column type="expand" > 
+    <el-table-column type="expand" width="200"> 
       <template slot-scope="scope">
         <el-table
             :data="scope.row.item">
@@ -122,7 +122,7 @@ export default {
 </script>
 
 <style scoped>
-  .demo-table-expand {
+  /* .demo-table-expand {
     font-size: 0;
   }
   .demo-table-expand label {
@@ -133,5 +133,5 @@ export default {
     margin-right: 0;
     margin-bottom: 0;
     width: 50%;
-  }
+  } */
 </style>

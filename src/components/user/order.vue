@@ -65,6 +65,11 @@
             </el-form-item>
         </el-form>
   </div>
+  <el-steps :active="1" align-center>
+  <el-step title="创建订单" description="创建订单中"></el-step>
+  <el-step title="付 款" description="等待付款"></el-step>
+  <el-step title="步骤 3" description="这段就没那么长了"></el-step>
+</el-steps>
 </div>
 </template>
 
@@ -124,10 +129,10 @@ export default {
             this.order.clist = JSON.stringify(this.cart)
             console.log(this.order)
             testRequest('/user/addOrder',this.order).then( resp =>{
-                alert("生成订单成功 前往付款")
+                alert("生成订单成功 前往订单中付款")
                 this.$cookies.remove("money");
                 this.$cookies.remove("order");
-                this.$router.push('/pay/'+this.order.orderId);
+                this.$router.push('/pay/'+resp.data.data.orderId);
             })
         }
     },

@@ -34,6 +34,9 @@ export default new Router({
     {
       path: '/',
       name: 'index',
+      // beforeEnter:(to,from,next)=>{
+        
+      // },
       component: index => import('@/components/index'),
       redirect:'/list',
       
@@ -160,15 +163,20 @@ export default new Router({
         },{
           path:'/pay/:orderId',
           beforeEnter: (to,from,next)=>{
-            let userId = to.params.userId;
-            getRequest('/user/query/'+userId).then( resp =>{
-              if(resp.data.status ===200){
-                next()
-              }else{
-                alert(resp.data.message);
-                next('/')
-              }
-            })
+            let orderId = to.params.orderId;
+            console.log("orderId="+orderId)
+            getRequest('/user/queryByOrderId?orderId='+orderId).then( resp=>{ 
+              let userId = resp.data;
+              console.log(userId)
+              getRequest('/user/query/'+userId).then( resp =>{
+                if(resp.data.status ===200){
+                  next()
+                }else{
+                  alert(resp.data.message);
+                  next('/')
+                }
+              })
+            });
           },
           component:pay =>import('@/components/user/paymoney')
         }

@@ -6,8 +6,7 @@
     <el-table-column type="expand" width="200" > 
       <template slot-scope="scope">
         <el-table
-        :data="scope.row.item"
-            >
+            :data="scope.row.item">
             <el-table-column
                 label="商品名称"
                 prop="productName"
@@ -16,8 +15,8 @@
             <el-table-column
                 label="商品图片"
             >
-                <template slot-scope="scope">
-                    <img :src="scope.row.productImgurl" style="width:150px;height:100px">
+                <template slot-scope="item">
+                    <img :src="item.row.productImgurl" style="width:150px;height:100px">
                 </template>
             </el-table-column>
             <el-table-column
@@ -61,23 +60,26 @@ export default {
         return{
             order:[],
             dd:false,
-            item:[],
+            // item:[],
             
         }
     },
     inject: ['reload'],
     methods:{
-        initOrder(val){
+        initOrder(){
             getRequest('/user/orderManage').then( resp =>{
                 this.order = resp.data;
-                for(var i = 0;i<this.order.length;i++){
-                    this.item.push(this.order[i].item)
-                }
+                // for(var i = 0;i<this.order.length;i++){
+                //     this.item.push(this.order[i].item)
+                // }
+                // console.log(this.item[2])
+                // console.log(this.order)
                 
             })
         },
         getStatus(val){
             if(val ==0){
+                this.dd = true;
                 return "待付款"
             }else if(val ==1){
                 this.dd = false;
@@ -95,6 +97,10 @@ export default {
                 this.reload();
             })
         },
+        // getTest(val){
+        //     console.log(val)
+        //     return val;
+        // }
         // getItem(val){
         //     getRequest('/user/queryItem?orderId='+val).then( resp =>{
         //         return resp.data;
@@ -108,5 +114,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

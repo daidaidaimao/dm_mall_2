@@ -7,6 +7,11 @@
   <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
 </el-tabs>
 <el-button type="primary" @click="pay(orderId)">我付完了！</el-button>
+  <el-steps :active="2" align-center>
+  <el-step title="创建订单" description="创建订单中"></el-step>
+  <el-step title="付 款" description="等待付款"></el-step>
+  <el-step title="步骤 3" description="这段就没那么长了"></el-step>
+</el-steps>
 </div>
 </template>
 
@@ -23,7 +28,8 @@ export default {
     methods:{
         pay(val){
             let ticket = this.$cookies.get("TICKET");
-            let username = ticket.substr(42);
+        getRequest('/user/queryUsername?userId='+ticket).then(resp => { 
+            let username = resp.data;
             getRequest('/user/pay?orderId='+val).then( resp =>{
                 getRequest('/user/queryItem?orderId='+val).then( resp =>{
                     this.item = resp.data;
@@ -36,7 +42,9 @@ export default {
                 }
                 })
             })
+        });
             alert("付款成功")
+            this.$router.back(-1)
         }
     }
 }
