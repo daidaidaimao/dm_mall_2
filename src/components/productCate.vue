@@ -3,7 +3,7 @@
         <!-- 商品展示 -->
  <div class="list" v-for="p in plist" v-bind:key="p.productId">
         <!-- <el-container> -->
-        <img :src="p.productImgurl" class="picture" style="width:300px;height:400px"  @click="goDetail(p.productId)">
+        <img :src="p.productImgurl" class="picture" style="width:300px;height:400px"  @click="goDetail(p.productId)" alt="nima">
         <!-- <div class="demo-image__preview">
         <el-image
         style="width: 250px; height: 400px;margin-top :5%"
@@ -62,7 +62,7 @@
         </el-pagination>
     </div>
     </div>
-    
+
 </template>
 
 <script>
@@ -90,7 +90,7 @@ export default {
                     this.plist = resp.data.rows;
                     this.total = resp.data.total;
                 }
-                
+
                 // console.log(resp.data);
                 // console.log(this.productCategory,page,num)
             })
@@ -186,7 +186,7 @@ export default {
     word-wrap: break-word !important;
     word-break: break-all !important;
     white-space: normal !important;
-    
+
 }
 .baoyou{
     background-color: coral;
@@ -198,11 +198,11 @@ export default {
     /* line-height: 40px; */
     /* height: 30px; */
     /* text-align: center; */
-    
+
 }
 .shop{
     font-size: 13px;
-    
+
 }
 
 </style>

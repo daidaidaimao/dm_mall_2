@@ -33,7 +33,7 @@
          </el-form-item> -->
         <el-form-item>
             <el-button type="primary" @click="submitForm('person')">立即提交</el-button>
-            <el-button @click="goDetail(this.$route.params.username)">返回</el-button>
+            <el-button @click="goDetail()">返回</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -86,8 +86,8 @@ export default {
             //     })
             // }
         },
-        goDetail(val){
-            this.$router.push('/detail/'+val);
+        goDetail(){
+            this.$router.go(-1);
             this.reload();
         },
         submitForm(formName) {

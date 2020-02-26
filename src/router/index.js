@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import index from 
-// import category from 
+// import index from
+// import category from
 // import productList from ''
-// import productDetail from 
-// import register from 
-// import login from 
+// import productDetail from
+// import register from
+// import login from
 // import refresh from '@/components/utils/refresh'
-// import back from 
-// import des from 
-// import cate from 
-// import blank from 
+// import back from
+// import des from
+// import cate from
+// import blank from
 // import skill from '@/components/back/dm_skill'
 // import cateManage from '@/components/back/CategoryManage'
 // import productManage from '@/components/back/productManage'
@@ -18,8 +18,8 @@ import Router from 'vue-router'
 // import productEdit from '@/components/back/productEdit'
 // import test from '@/components/utils/test'
 // import echart from '@/components/back/Echarts'
-// import person from 
-// import registerDetail from 
+// import person from
+// import registerDetail from
 Vue.use(Router)
 import {getRequest} from '@/utils/api'
 
@@ -35,11 +35,11 @@ export default new Router({
       path: '/',
       name: 'index',
       // beforeEnter:(to,from,next)=>{
-        
+
       // },
       component: index => import('@/components/index'),
       redirect:'/list',
-      
+
       children: [
         {
           path:'list',
@@ -47,7 +47,7 @@ export default new Router({
           components:{
             left:category => import('@/components/Category'),
             right:productList => import('@/components/productList')
-            
+
           }
         },{
           path: 'product/:productId',
@@ -129,7 +129,7 @@ export default new Router({
           //               // next();
           //           }
           //     })
-          //   }  
+          //   }
           // },
           component:shoppingcart => import('@/components/user/shoppingCart')
         },{
@@ -165,7 +165,7 @@ export default new Router({
           beforeEnter: (to,from,next)=>{
             let orderId = to.params.orderId;
             console.log("orderId="+orderId)
-            getRequest('/user/queryByOrderId?orderId='+orderId).then( resp=>{ 
+            getRequest('/user/queryByOrderId?orderId='+orderId).then( resp=>{
               let userId = resp.data;
               console.log(userId)
               getRequest('/user/query/'+userId).then( resp =>{
@@ -196,7 +196,7 @@ export default new Router({
     // }
     {
       path: '/daimao',
-      name: 'back', 
+      name: 'back',
       component: back => import('@/components/back/back'),
       redirect: 'daimao/des',
       children: [
@@ -230,6 +230,9 @@ export default new Router({
         },{
           path: 'userManage',
           component: userManage =>import('@/components/back/userManage')
+        },{
+          path: 'fahuo',
+          component: fahuo => import('@/components/back/fahuo')
         }
 
       ]

@@ -2,8 +2,9 @@
    <el-table
     :data="order"
     style="width: 100%"
+
     >
-    <el-table-column type="expand" width="200"> 
+    <el-table-column type="expand" width="200">
       <template slot-scope="scope">
         <el-table
             :data="scope.row.item">
@@ -32,10 +33,26 @@
         </el-table>
       </template>
     </el-table-column>
-    <el-table-column
-      label="订单 ID"
-      prop="orderId">
-    </el-table-column>
+<!--    <el-table-column-->
+<!--      label="订单 ID"-->
+<!--      prop="orderId">-->
+<!--    </el-table-column>-->
+<!--     <el-table-column-->
+<!--      label="timeForSort"-->
+<!--      prop="orderTime"-->
+<!--     >-->
+
+<!--     </el-table-column>-->
+     <el-table-column
+       label="订单创建时间"
+        :sortable="true"
+        :sort-method="sortByTime"
+
+        >
+       <template slot-scope="scope">
+         {{ getTime(scope.row.orderTime) }}
+       </template>
+     </el-table-column>
     <el-table-column
       label="订单金额"
       prop="orderMoney">
@@ -45,7 +62,9 @@
       prop="address">
     </el-table-column>
     <el-table-column
-      label="订单状态">
+      label="订单状态"
+      :filters="[{ text:'待付款', value:0 },{text:'待发货',value:1}]"
+      :filter-method="filterState">
       <template slot-scope="scope">
           {{ getStatus(scope.row.status) }}<el-button type="primary" size="small" @click="pay(scope.row.orderId)" v-show="dd">付款 </el-button> <el-button  v-show="dd" type="primary" size="small">取消订单</el-button>
       </template>
@@ -55,6 +74,8 @@
 
 <script>
 import {getRequest} from '@/utils/api.js'
+import {timestampToTime} from '@/utils/api.js'
+
 export default {
     data:function(){
         return{
@@ -81,11 +102,13 @@ export default {
             //         }else{
             getRequest('/user/queryOrder?userId='+val).then( resp => {
                 this.order = resp.data.data;
+
+                // console.log(this.order)
                 // for(var i =0;i<this.order.length;i++){
                 //     let list = this.order[i].item
                 //     this.list = list;
                 // }
-                
+
                 // this.order.item = JSON.parse(this.order.clist);
                 // console.log(this.order);
                 // console.log(this.order.item)
@@ -96,24 +119,33 @@ export default {
             // }
         },
         getStatus(val){
-            if(val ==0){
+            if(val ===0){
                 return "待付款"
-            }else if(val ==1){
+            }else if(val ===1){
                 // this.dd = false;
                 return "待发货"
-            }else if(val == -1){
+            }else if(val === -1){
                 return "订单成功结束"
-            }else if(val == 2){
+            }else if(val === 2){
                 // this.dd = false;
                 return "待收货"
             }
         },
+        getTime(val){
+          return timestampToTime(val)
+        },
         pay(val){
             this.$router.push('/pay/'+val);
-        }
-            
-            
-                
+        },
+        sortByTime(a,b){
+            return a.orderTime-b.orderTime
+        },
+        filterState(value,row){
+          return row.status === value
+        },
+
+
+
     },
     mounted:function(){
         this.initOrder(this.userId);

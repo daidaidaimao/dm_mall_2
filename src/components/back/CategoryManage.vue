@@ -2,25 +2,25 @@
 <el-container>
     <el-dialog title="分类名" :visible.sync="dialogTableVisible">
         <el-input placeholder="请输入要添加的分类名" v-model="name"/>
-        <el-button type="primary" @click="() => append(data)">新增节点</el-button> 
+        <el-button type="primary" @click="() => append(data)">新增节点</el-button>
     </el-dialog>
 
-    
-    <el-tree :data="data" 
-    :props="defaultProps" 
-    @node-click="handleNodeClick" 
-    node-key="data.id" 
+
+    <el-tree :data="data"
+    :props="defaultProps"
+    @node-click="handleNodeClick"
+    node-key="data.id"
     :default-expand-all="true">
      <span class="custom-tree-node" slot-scope="{ node, data }">
         <span class="node">{{ node.label }}</span>
         <span>
-          <el-button 
+          <el-button
             type="text"
             size="mini"
             icon="el-icon-edit"
             @click="() => dio(data)">
             添加
-            
+
           </el-button>
 
           <el-button
@@ -33,8 +33,8 @@
       </span>
     </el-tree>
   <el-image
-      :src="url"
-      :fit="fit"></el-image>
+    :src="url"
+    :fit="fit"/>
 
 </el-container>
 </template>
@@ -85,10 +85,10 @@ import {postRequest} from '@/utils/api'
             this.dialogTableVisible = true;
         },
         append(data) {
-            
+
             if (!data.children) {
                 // console.log(data);
-                this.$set(data, 'children', []);    
+                this.$set(data, 'children', []);
             }
 
             // console.log(data.id);
@@ -109,7 +109,7 @@ import {postRequest} from '@/utils/api'
                 alert("还有子分类不可删除当前节点")
             }else{
                 getRequest('/product/deleteNode?id='+data.id).then(resp => {
-                    if(resp.data.status == 200){
+                    if(resp.data.status === 200){
                         alert(resp.data.message);
                         // this.$router.go(0);
                         this.reload()
@@ -132,7 +132,7 @@ import {postRequest} from '@/utils/api'
 }
 .el-tree{
   margin-left: 10%;
-  
+
   /* align-content: center; */
 
 }

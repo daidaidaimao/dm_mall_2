@@ -1,22 +1,23 @@
 <template>
 <el-container>
   <el-aside width="200px">
-    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" node-key="data.id" :default-expand-all="true"></el-tree>
+    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" node-key="data.id"
+             :default-expand-all="true"/>
   </el-aside>
   <el-main>
     <el-carousel :interval="4000" type="card" height="400px">
       <el-carousel-item v-for="p in pic" :key="p.name">
-            <el-image
-            
-            :src="p.url"
-            :fit="fit"></el-image>
+        <el-image
+
+          :src="p.url"
+          :fit="fit"/>
       </el-carousel-item>
     </el-carousel>
   </el-main>
 </el-container>
 
 
- 
+
 </template>
 <script>
 import {getRequest} from '@/utils/api'
@@ -61,7 +62,7 @@ import {getRequest} from '@/utils/api'
         this.getCategory()
     }
   }
-  
+
 </script>
 <style scoped>
 

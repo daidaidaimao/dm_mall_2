@@ -49,7 +49,7 @@
       <template slot-scope="scope">
         <el-button @click ="changStatus(scope.row)" type = "primary" size="small">{{ show_dm(scope.row) }}</el-button>
         <el-button @click="handleClick(scope.row)" type="text" size="small">查看/编辑</el-button>
-        <el-button type="text" size="small">删除</el-button>
+        <el-button type="text" size="small" @click="delProduct(scope.row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -72,7 +72,9 @@
 <script>
 import {postRequest} from '@/utils/api.js'
 import {getRequest} from '@/utils/api.js'
-import addproduct from '@/components/back/addproduct'
+// import addproduct from '@/components/back/addproduct'
+import {deleteRequest} from "../../utils/api";
+
 export default {
     // name: 'productManage',
     data: function(){
@@ -83,23 +85,19 @@ export default {
             currentPage:1,
             see:true,
             show:'上架',
-            
+
         }
     },
     inject: ['reload'],
     methods:{
       see_dm(row){
-        if(row.productStatus ===0){
-          return true;
-        }else{
-          return false;
-        }
+        return row.productStatus === 0;
       },
       show_dm(row){
         if(row.productStatus === 0)
           return "上架";
         else
-          return "下架"; 
+          return "下架";
       },
       handleClick(row) {
           console.log(row.productCategory);
@@ -110,7 +108,7 @@ export default {
       changStatus(row){
         console.log(row);
         postRequest('/product/editStatus',row).then( resp => {
-          if(resp.data.status == 200){
+          if(resp.data.status ===200){
             alert(resp.data.message);
             // this.$router.go(0)
             this.reload();
@@ -135,8 +133,8 @@ export default {
             // }else{
             //   this.status = "上架中";
             // }
-            
-            
+
+
         })
       },
       handleSizeChange(val) {
@@ -150,7 +148,7 @@ export default {
       addproduct(){
             // this.$layer.iframe({
             //     content: {
-            //         content: addproduct, 
+            //         content: addproduct,
             //         parent: this,
             //         data:{}
             //     },
@@ -160,11 +158,17 @@ export default {
             //         this.$router.push('/daimao/productManage');
             //         // this.backtoback();
             //         // alert('关闭iframe');
-                    
+
             //     }
             //     });
             this.$router.push('/daimao/addproduct');
-        }
+        },
+      delProduct(row){
+         deleteRequest('/product/delete?productId='+row.productId).then( resp=>{
+           alert(resp.data.message)
+           this.reload()
+         })
+      }
 
     },
     mounted:function(){

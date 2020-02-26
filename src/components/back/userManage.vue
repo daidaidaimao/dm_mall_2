@@ -22,7 +22,7 @@
       filter-placement="bottom-end"
       >
       <template slot-scope="scope">
-          {{ getStatus(scope.row.status) }}<el-button type="primary" size="small" :disabled="dd">{{ caozuo}} </el-button> 
+          {{ getStatus(scope.row.status) }}<el-button type="primary" size="small" :disabled="dd">{{ caozuo}} </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -34,7 +34,8 @@ export default {
     data: function(){
         return{
             user:[],
-            caozuo:""
+            caozuo:"",
+            dd:false
         }
     },
     methods:{

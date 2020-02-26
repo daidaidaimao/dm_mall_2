@@ -1,26 +1,26 @@
 <template>
 <el-form :model="product" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="商品名称" prop="productName">
-            <el-input v-model="product.productName"></el-input>
+          <el-input v-model="product.productName"/>
         </el-form-item>
 
         <el-form-item label="商品分类" prop="productCategory">
             <el-select v-model="product.productCategory" placeholder="请选择商品分类">
-                <el-option  v-for="c in category" :key="c.id" :label="c.name" :value="c.id"></el-option>
+              <el-option v-for="c in category" :key="c.id" :label="c.name" :value="c.id"/>
             </el-select>
         </el-form-item>
         <el-form-item label="商品数量" prop="productNum">
-            <el-input v-model="product.productNum" type="number"></el-input>
+          <el-input v-model="product.productNum" type="number"/>
         </el-form-item>
         <el-form-item label="商品价格" prop="productPrice">
-            <el-input v-model="product.productPrice" type="number"></el-input>
+          <el-input v-model="product.productPrice" type="number"/>
         </el-form-item>
         <el-form-item label="商品描述" prop="productDescription">
-            <el-input v-model="product.productDescription" type="textarea"></el-input>
+          <el-input v-model="product.productDescription" type="textarea"/>
         </el-form-item>
         <el-form-item label="商品图片">
-          <el-input v-model="product.productImgurl"></el-input>
-          <img :src="product.productImgurl" class="picture">
+          <el-input v-model="product.productImgurl" readonly="true"/>
+          <img :src="product.productImgurl" class="picture" alt="nima">
           <input type="file"  name="imgOne" @change="onUpload($event)" >
         </el-form-item>
         <input type="file"  class="dddm" @change="onUpload_2($event)" >
@@ -39,6 +39,7 @@
             <el-button @click="resetForm('product')">返回</el-button>
         </el-form-item>
 
+
 </el-form>
 
 </template>
@@ -51,21 +52,23 @@ import 'quill/dist/quill.bubble.css'
 
 import { quillEditor } from 'vue-quill-editor'
 import {getRequest} from '@/utils/api.js'
-import { postRequest } from '@/utils/api.js' 
+// import { postRequest } from '@/utils/api.js'
 import {uploadFileRequest} from '@/utils/api.js'
-    const toolbarOptions = [
+import {putRequest} from "../../utils/api";
+
+const toolbarOptions = [
       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
       ['blockquote', 'code-block'],
-    
+
       [{'header': 1}, {'header': 2}],               // custom button values
       [{'list': 'ordered'}, {'list': 'bullet'}],
       [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
       [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
       [{'direction': 'rtl'}],                         // text direction
-    
+
       [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
       [{'header': [1, 2, 3, 4, 5, 6, false]}],
-    
+
       [{'color': []}, {'background': []}],          // dropdown with defaults from theme
       [{'font': []}],
       [{'align': []}],
@@ -96,7 +99,7 @@ export default {
         productPrice:[
           { required: true, message: '请输入商品数量', trigger: 'blur' },
         ],
-                
+
       },
       fit:"cover",
        editorOption: {  modules: {
@@ -115,7 +118,7 @@ export default {
                         }
        }
       },
-                
+
     }
   },
   inject: ['reload'],
@@ -131,13 +134,13 @@ export default {
     },
     submitForm(formName) {
       console.log(this.product);
-      postRequest("/product/update",this.product).then( resp => {
-        if(resp.data.status == 200){
+      putRequest("/product/update",this.product).then( resp => {
+        if(resp.data.status === 200){
           alert("修改成功");
           // this.$router.go(0);
           this.reload();
         }else{
-          alert(resp.data.message);  
+          alert(resp.data.message);
         }
       })
     },
@@ -151,8 +154,8 @@ export default {
                 console.log(resp.data)
                 this.product.productImgurl = resp.data;
             })
-        },    
-        
+        },
+
       onUpload_2: function(e){
         let quill = this.$refs.QuillEditor.quill;
         let formData = new FormData();
@@ -184,7 +187,7 @@ export default {
 
   mounted:function(){
     this.initData(this.$route.params.productId);
-    // this.initCategory(); 
+    // this.initCategory();
 
   }
 }

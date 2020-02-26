@@ -15,7 +15,7 @@
                 <!-- <router-link :to="{path: '/completeInfo/'+u.username }">您的信息尚未完善 点击去完善信息</router-link> -->
                 用户名: {{ u.name }}
                 <el-divider></el-divider>
-                注册时间:{{ timestampToTime(u.createTime) }}
+                注册时间:{{ getTime(u.createTime) }}
                 <el-divider></el-divider>
                 性别：{{u.gender}}
                 <el-divider></el-divider>
@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import { getRequest } from '@/utils/api.js' 
+import { getRequest } from '@/utils/api.js'
+import { timestampToTime } from '@/utils/api.js'
 
 export default {
 
@@ -60,15 +61,8 @@ export default {
         }
     },
     methods: {
-        timestampToTime(timestamp) {
-            var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-            var Y = date.getFullYear() + '-';
-            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-            var D = date.getDate() + ' ';
-            var h = date.getHours() + ':';
-            var m = date.getMinutes() + ':';
-            var s = date.getSeconds();
-            return Y+M+D;
+        getTime(timestamp) {
+            return timestampToTime(timestamp)
         },
         initDetail(val){
             // let username = this.initUserId(val)
