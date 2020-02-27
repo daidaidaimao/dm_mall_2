@@ -44,7 +44,7 @@ export default {
             })
         });
             alert("付款成功")
-            this.$router.back(-1)
+            // this.$router.back(-1)
         }
     }
 }

@@ -71,15 +71,15 @@ export default {
     handleSelect : function(key,keyPath){
       let ticket = this.$cookies.get("TICKET");
       // console.log(key, keyPath);
-      if(key === 1){
+      if(key === '1'){
         this.$router.push('/');
-      }else if(key === 3){
+      }else if(key === '3'){
         this.$router.push('/login');
-      }else if(key ===2) {
+      }else if(key === '2') {
         this.$router.push('/daimao');
-      }else if(key ===4){
+      }else if(key === '4'){
 
-          if(ticket === null){
+          if(ticket == null){
               alert("还未登陆，点击确定转入登陆界面");
               this.$router.push('/login');
               this.reload();
@@ -101,7 +101,7 @@ export default {
                 // }
               // })
           // }
-      }else if(key ==5){
+      }else if(key === '5'){
           // let ticket = this.$cookies.get("TICKET");
           // let username  = ticket.substr(42);
           // if(ticket === null){

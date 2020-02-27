@@ -47,7 +47,7 @@
         label="操作">
         <template slot-scope="scope">
             <el-button type="primary" @click="deleteCart(scope.row.id)">删除</el-button>
-            
+
         </template>
     </el-table-column> -->
   </el-table>
@@ -81,7 +81,7 @@ import {testRequest} from '@/utils/api.js'
 export default {
     data:function(){
         return {
-            cart:[],    
+            cart:[],
             address:"",
             order:{
                 orderMoney:0,
@@ -89,7 +89,7 @@ export default {
                 userId:this.$route.params.userId,
                 clist:"",
             },
-            
+
         }
     },
     methods:{
@@ -119,8 +119,8 @@ export default {
 
                 // }
             // })
-            
-            
+
+
         },
         onSubmit(){
             // console.log(this.order);
@@ -129,7 +129,7 @@ export default {
             this.order.clist = JSON.stringify(this.cart)
             console.log(this.order)
             testRequest('/user/addOrder',this.order).then( resp =>{
-                alert("生成订单成功 前往订单中付款")
+                alert("生成订单成功,请在5分钟内付款，否则订单取消， 点击前往付款")
                 this.$cookies.remove("money");
                 this.$cookies.remove("order");
                 this.$router.push('/pay/'+resp.data.data.orderId);

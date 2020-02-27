@@ -63,7 +63,7 @@
           <template slot="title"><i class="el-icon-info"/>后端API查询</template>
           <el-menu-item-group>
              <el-menu-item index="5-1"><el-link href="http://localhost:8888/swagger-ui.html" target="_blank">商品和商品分类API</el-link></el-menu-item>
-             <el-menu-item index="5-2">用户、购物车、订单API</el-menu-item>
+            <el-menu-item index="5-2"><el-link href="http://localhost:9999/swagger-ui.html" target="_blank">用户、购物车、订单API</el-link></el-menu-item>
             <el-menu-item index="5-3">商品搜索功能API</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
