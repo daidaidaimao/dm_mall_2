@@ -60,7 +60,7 @@
       :filter-method="filterState">
       <template slot-scope="scope">
           {{ getStatus(scope.row.status) }}
-        <el-button type="primary" size="small" @click="fahuo(scope.row.orderId,scope.row.status)" :v-show="dd">发货 </el-button>
+        <el-button type="primary" size="small" @click="fahuo(scope.row.orderId,scope.row.status)" v-show="nicai(scope.row.status)">发货 </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -120,11 +120,11 @@ export default {
             if(val ===0){
                 // this.dd = true;
                 return "待付款"
-            }else if(val ===1){
+            }else if(val === 1){
                 // this.dd = false;
                 return "待发货"
             }else if(val === -1){
-                return "订单成功结束"
+                return "订单取消"
             }else if(val === 2){
                 // this.dd = true;
                 return "待买家收货"
@@ -151,6 +151,12 @@ export default {
           }
             // this.$router.push('/fahuo/'+val);
         },
+      nicai(val){
+        if (val === 1)
+          return true
+        else
+          return false
+      },
 
         // getTest(val){
         //     console.log(val)

@@ -74,7 +74,7 @@
         <el-button type="primary" size="small" :disabled="nizaicai(scope.row.status)">取消订单</el-button>
         {{ queryOrderTime(scope.row.orderId,scope.row.status) }}
 
-        <p v-show="nicai(scope.row.status)" @click="countDown">距离订单过期还有{{ time }}秒</p>
+        <p v-show="nicai(scope.row.status)" >距离订单过期还有{{ time }}秒</p>
 
 <!--        <count-down  :currentTime="0" :startTime="0" :endTime="54646" :tipText="'剩余付款时间'" :tipTextEnd="'剩余付款时间'" :endText="'订单已经取消，请重新下单'" :dayTxt="'天'" :hourTxt="'小时'" :minutesTxt="'分钟'" :secondsTxt="'秒'" ></count-down>-->
 <!--        {{ queryOrderTime(scope.row.orderId,scope.row.status) }}-->
@@ -202,9 +202,10 @@ export default {
       queryOrderTime(orderId,status){
           if (status === 0){
           getRequest('/user/queryOrderTime?orderId='+orderId).then( resp => {
-            console.log(resp.data.message+"test")
-            this.time = Number(resp.data.message);
-            console.log(this.time)
+            // console.log(resp.data.message+"test")
+            // this.time = Number(resp.data.message);
+            // console.log(this.time)
+            this.$cookies.set("time",Number(resp.data.message))
           })
           }
           },
@@ -213,7 +214,9 @@ export default {
       },
       countDown() {
         let clock = window.setInterval(() => {
-          this.time
+          this.time = this.$cookies.get("time")
+          // console.log(this.time)
+          this.time--
         },1000)
       }
       // jishiqi(a,b){
@@ -246,6 +249,7 @@ export default {
     },
     mounted:function(){
         this.initOrder(1,10,this.userId);
+        this.countDown()
     }
 }
 </script>

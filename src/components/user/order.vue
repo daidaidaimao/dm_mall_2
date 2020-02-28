@@ -129,10 +129,21 @@ export default {
             this.order.clist = JSON.stringify(this.cart)
             console.log(this.order)
             testRequest('/user/addOrder',this.order).then( resp =>{
-                alert("生成订单成功,请在5分钟内付款，否则订单取消， 点击前往付款")
+                alert(resp.data.message);
                 this.$cookies.remove("money");
                 this.$cookies.remove("order");
+              // getRequest('/user/queryItem?orderId='+val).then( resp =>{
+              //   this.item = resp.data;
+              //   for(var i = 0;i<this.item.length;i++){
+              //     getRequest('/user/queryCartId?productId='+this.item[i].productId+"&username="+username).then( resp =>{
+              //       getRequest('/user/deleteCart?id='+resp.data).then( resp=>{
+              //         console.log("删除购物车内商品:"+this.item[i].productName)
+              //       })
+              //     })
+              //   }
+              // })
                 this.$router.push('/pay/'+resp.data.data.orderId);
+
             })
         }
     },

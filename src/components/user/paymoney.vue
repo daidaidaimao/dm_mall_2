@@ -22,25 +22,25 @@ export default {
         return {
             orderId: this.$route.params.orderId,
             item :[],
-        
+
         }
     },
     methods:{
         pay(val){
             let ticket = this.$cookies.get("TICKET");
-        getRequest('/user/queryUsername?userId='+ticket).then(resp => { 
+        getRequest('/user/queryUsername?userId='+ticket).then(resp => {
             let username = resp.data;
             getRequest('/user/pay?orderId='+val).then( resp =>{
-                getRequest('/user/queryItem?orderId='+val).then( resp =>{
-                    this.item = resp.data;
-                    for(var i = 0;i<this.item.length;i++){
-                    getRequest('/user/queryCartId?productId='+this.item[i].productId+"&username="+username).then( resp =>{
-                        getRequest('/user/deleteCart?id='+resp.data).then( resp=>{
-                            console.log("删除购物车内商品:"+this.item[i].productName)           
-                        })
+              getRequest('/user/queryItem?orderId='+val).then( resp =>{
+                this.item = resp.data;
+                for(var i = 0;i<this.item.length;i++){
+                  getRequest('/user/queryCartId?productId='+this.item[i].productId+"&username="+username).then( resp =>{
+                    getRequest('/user/deleteCart?id='+resp.data).then( resp=>{
+                      console.log("删除购物车内商品:"+this.item[i].productName)
                     })
+                  })
                 }
-                })
+              })
             })
         });
             alert("付款成功")

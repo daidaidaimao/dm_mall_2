@@ -67,6 +67,13 @@
             <el-menu-item index="5-3">商品搜索功能API</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <el-submenu index="6">
+          <template slot="title"><i class="el-icon-back">返回首页</i> </template>
+            <el-menu-item-group>
+              <el-menu-item index="6-1">误点，返回刚刚界面</el-menu-item>
+              <el-menu-item index="6-2">我就是要去首页</el-menu-item>
+            </el-menu-item-group>
+        </el-submenu>
     </el-menu>
   </el-aside>
   <el-container>
@@ -110,6 +117,10 @@
         this.$router.push('/daimao/orderManage')
       }else if(key === '3-1'){
         this.$router.push('/daimao/userManage')
+      }else if(key === '6-1'){
+        this.$router.go(-1)
+      }else if(key === '6-2'){
+        this.$router.push('/')
       }
       }
     }
