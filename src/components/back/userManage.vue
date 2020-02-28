@@ -15,6 +15,10 @@
       label="密码"
       prop="password">
     </el-table-column>
+       <el-table-column
+       label="在线状态">
+         <template slot-scope="scope">{{ getOnline(scope.row.userId)}}</template>
+       </el-table-column>
     <el-table-column
       label="状态"
       :filters="[{ text: '被封的', value: 0 }, { text: '能使用的', value: 1 }]"
@@ -22,7 +26,7 @@
       filter-placement="bottom-end"
       >
       <template slot-scope="scope">
-          {{ getStatus(scope.row.status) }}<el-button type="primary" size="small" :disabled="dd">{{ caozuo}} </el-button>
+          {{ getStatus(scope.row.status) }}<el-button type="primary" size="small" >{{ caozuo}} </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -35,7 +39,7 @@ export default {
         return{
             user:[],
             caozuo:"",
-            dd:false
+
         }
     },
     methods:{
@@ -55,7 +59,27 @@ export default {
         },
         filterstatus(value,row){
             return row.status === value;
-        }
+        },
+      inOnlie(val){
+          // var test ="";
+          getRequest('/user/OnlineUser?userId='+val).then( resp =>{
+            console.log(resp.data.message)
+            // test = resp.data.message;
+            // if (resp.data.status === 200)
+            //   return "在线";
+            // else
+            //   return "离线";
+            this.$cookies.set(val,resp.data.message);
+            // return resp.data.message
+          })
+
+      },
+      getOnline(val){
+          this.inOnlie(val);
+          // var information = this.inOnlie(val)
+          // return information;
+        return this.$cookies.get(val);
+      }
     },
     mounted: function(){
         this.initUser();
