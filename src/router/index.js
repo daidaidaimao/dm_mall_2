@@ -22,6 +22,7 @@ import Router from 'vue-router'
 // import registerDetail from
 Vue.use(Router)
 import {getRequest} from '@/utils/api'
+import orderComment from "../components/user/orderComment";
 
 export default new Router({
   inject:['reload'],
@@ -164,10 +165,10 @@ export default new Router({
           path:'/pay/:orderId',
           beforeEnter: (to,from,next)=>{
             let orderId = to.params.orderId;
-            console.log("orderId="+orderId)
+            console.log("orderId="+orderId);
             getRequest('/user/queryByOrderId?orderId='+orderId).then( resp=>{
               let userId = resp.data;
-              console.log(userId)
+              console.log(userId);
               getRequest('/user/query/'+userId).then( resp =>{
                 if(resp.data.status ===200){
                   next()
@@ -179,6 +180,25 @@ export default new Router({
             });
           },
           component:pay =>import('@/components/user/paymoney')
+        },{
+          path:'/comment/:orderId',
+          beforeEnter: (to,from,next)=>{
+            let orderId = to.params.orderId;
+            console.log("orderId="+orderId);
+            getRequest('/user/queryByOrderId?orderId='+orderId).then( resp=>{
+              let userId = resp.data;
+              console.log(userId);
+              getRequest('/user/query/'+userId).then( resp =>{
+                if(resp.data.status ===200){
+                  next()
+                }else{
+                  alert(resp.data.message);
+                  next('/')
+                }
+              })
+            });
+          },
+          component: orderComment => import('../components/user/orderComment')
         }
 
 

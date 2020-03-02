@@ -32,7 +32,7 @@
           :src="url"
           :fit="fit"
           class="pic"/></div></el-col>
-      <el-col :span="8"><div class="grid-content bg-purple-light"></div>秒杀</el-col>
+      <el-col :span="8"><div class="grid-content bg-purple-light"></div>秒杀(我就不做了)</el-col>
       <el-col :span="8"><div class="grid-content bg-purple" style="display: inline-block">
         <el-input v-model="input" placeholder="请输入内容" style="width:65%"/><el-button type="primary" icon="el-icon-search">搜索</el-button></div></el-col>
     </el-row>
@@ -118,7 +118,13 @@ export default {
           //     })
           //       }else{
                   // getRequest('/user/queryUserId?username='+username).then( resp =>{
-                      this.$router.push('/myorder/'+ticket);
+        if(ticket == null){
+          alert("还未登陆，点击确定转入登陆界面");
+          this.$router.push('/login');
+          this.reload();
+        }else {
+          this.$router.push('/myorder/' + ticket);
+        }
           //         })
           //       }
           //     })

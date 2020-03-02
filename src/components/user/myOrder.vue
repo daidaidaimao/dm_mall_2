@@ -31,6 +31,10 @@
                 prop="productPrice"
             >
             </el-table-column>
+          <el-table-column
+          label="">
+
+          </el-table-column>
         </el-table>
       </template>
     </el-table-column>
@@ -72,6 +76,9 @@
           {{ getStatus(scope.row.status) }}
         <el-button type="primary" size="small" @click="pay(scope.row.orderId)" v-show="nicai(scope.row.status)">付款 </el-button>
         <el-button type="primary" size="small" :disabled="nizaicai(scope.row.status)">取消订单</el-button>
+        <el-button type="primary" size="small" @click="confirmReceipt(scope.row.orderId)" v-show="caicaikan(scope.row.status)">确认收货</el-button>
+        <el-button type="primary" size="small" @click="toComment(scope.row.orderId)" v-show="nixinma(scope.row.status)">评价订单</el-button>
+
         {{ queryOrderTime(scope.row.orderId,scope.row.status) }}
 
         <p v-show="nicai(scope.row.status)" >距离订单过期还有{{ time }}秒</p>
@@ -156,7 +163,7 @@ export default {
                 // console.log(this.order.item)
                 // console.log(this.list)
             })
-          console.log(( new Date() ).getTime()+this.time*1000)
+          // console.log(( new Date() ).getTime()+this.time*1000)
             //         }
             //     })
             // }
@@ -218,7 +225,7 @@ export default {
           // console.log(this.time)
           this.time--
         },1000)
-      }
+      },
       // jishiqi(a,b){
           // let clock = this.queryOrderTime(a,b);
           // setInterval(this.queryOrderTime(a,b),1000);
@@ -242,7 +249,21 @@ export default {
       //       return "";
       //
       // },
-
+    confirmReceipt(val){
+          getRequest('/user/confirmReceipt?orderId='+val).then(resp=>{
+            alert(resp.data.message);
+            this.reload();
+          })
+    },
+      caicaikan(val){
+          return val === 2;
+      },
+      nixinma(val){
+          return val === 3;
+      },
+      toComment(orderId){
+          this.$router.push('/comment/'+orderId);
+      }
 
 
 

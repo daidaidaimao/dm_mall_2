@@ -3,16 +3,16 @@
     <el-container>
     <el-aside>
         <img :src="product.productImgurl" class="picture">
-          <!-- <el-image 
+          <!-- <el-image
             class="picture"
             fit="cover"
-            :src="product.productImgurl" 
+            :src="product.productImgurl"
             :preview-src-list="url">
         </el-image> -->
     </el-aside>
     <el-container>
         <el-header>
-            <span class="title">{{product.productName}}</span> 
+            <span class="title">{{product.productName}}</span>
              <el-divider></el-divider>
         </el-header>
         <el-main>
@@ -23,7 +23,7 @@
             <div class="num_1">
                 <span class="num_2">数量</span>
                 <input type="number" v-model="p_num" placeholder="1" class="num_3" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')" @change="kucun(p_num,product.productNum)">
-                <span class="kucun">(库存：{{product.productNum}}件)</span> 
+                <span class="kucun">(库存：{{product.productNum}}件)</span>
             </div>
             <span class="feihua" >承诺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="el-icon-warning"></i>7天无理由</span>
             <span class="mmh">支付&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;信用卡 微信 支付宝</span>
@@ -31,8 +31,19 @@
         </el-main>
     </el-container>
     </el-container>
-    
-    <p v-html="product.quill"></p>
+<!--  <p v-html="product.quill">{{product.quill}}</p>-->
+  <el-tabs type="border-card">
+    <el-tab-pane label="商品详情">
+      <p v-html="product.quill">{{product.quill}}</p>
+<!--      <div v-model="product.quill"></div>-->
+    </el-tab-pane>
+    <el-tab-pane label="商品评论">商品评论
+    <router-view/>
+    </el-tab-pane>
+    <el-tab-pane label="售后服务">售后服务</el-tab-pane>
+<!--    <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>-->
+  </el-tabs>
+
 
 </div>
 
@@ -42,7 +53,7 @@
             <img :src="product.productImgurl" class="picture">
         </div>
         <div class="content">
-            <span class="title">{{product.productName}}</span> 
+            <span class="title">{{product.productName}}</span>
             <span class="price">价格：￥{{product.productPrice}}</span>
             <span class="desc"> {{product.productDescription}}</span>
             <div class="num_1">
@@ -96,11 +107,11 @@ export default {
                 this.cart.productImgurl = resp.data.productImgurl;
                 this.cart.productPrice = resp.data.productPrice;
                 this.cart.productName = resp.data.productName;
-                
+
             })
         },
         chengnuo : function(){
-            
+
         },
         addCart(val){
             let ticket = this.$cookies.get("TICKET");
@@ -124,7 +135,7 @@ export default {
                                     alert(resp.data.message);
                             })
                         })
-                        
+
                     }
                 })
             }
@@ -169,7 +180,7 @@ export default {
     color: red;
     display: block;
     /* background-color: blue; */
-    
+
 }
 .num_3{
     text-align: center;
