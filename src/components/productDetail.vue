@@ -37,8 +37,41 @@
       <p v-html="product.quill">{{product.quill}}</p>
 <!--      <div v-model="product.quill"></div>-->
     </el-tab-pane>
-    <el-tab-pane label="商品评论">商品评论
-    <router-view/>
+    <el-tab-pane label="商品评论">
+      <div v-for="c in comment" :key="c.commentId">
+        <article class="media">
+          <figure class="media-left">
+            <p class="image is-64x64">
+              <img src="https://bulma.io/images/placeholders/128x128.png">
+            </p>
+          </figure>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong> {{ c.userName }} </strong> <small>@johnsmith</small> <small>31m</small>
+                <br>
+                {{ c.commentContent}}
+              </p>
+            </div>
+            <nav class="level is-mobile">
+              <div class="level-left">
+                <a class="level-item">
+                  <span class="icon is-small"><i class="fas fa-reply"></i></span>
+                </a>
+                <a class="level-item">
+                  <span class="icon is-small"><i class="fas fa-retweet"></i></span>
+                </a>
+                <a class="level-item">
+                  <span class="icon is-small"><i class="fas fa-heart"></i></span>
+                </a>
+              </div>
+            </nav>
+          </div>
+          <div class="media-right">
+<!--            <button class="delete"></button>-->
+          </div>
+        </article>
+      </div>
     </el-tab-pane>
     <el-tab-pane label="售后服务">售后服务</el-tab-pane>
 <!--    <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>-->
@@ -89,6 +122,7 @@ export default {
                 productPrice:"",
                 productName:""
             },
+          comment:[],
         }
     },
     methods:{
@@ -146,10 +180,36 @@ export default {
                 alert("库存不足啦")
                 this.reload()
             }
-        }
+        },
+      initComment(val){
+          getRequest('/user/showCommentProduct?productId='+val).then( resp => {
+            // console.log(val)
+            this.comment = resp.data;
+            console.log(this.comment);
+            // var i ;
+            //   for (i=0; i<this.comment.length; i++){
+            //     console.log(this.comment[i].userId);
+            //     getRequest("/user/detail?userId="+this.comment[i].userId).then( resp =>{
+            //       this.comment[i].name = resp.data.data.name;
+            //       // this.comment[i].person = resp.data;
+            //       // this.comment[i].name = resp.data.name;
+            //       // console.log(this.comment[i].userId)
+            //       console.log(resp.data.data.name)
+            //     })
+            //   }
+          })
+      },
+      // getUserName(val){
+      //     let temp = "";
+      //     getRequest("/user/detail?userId="+val).then( resp => {
+      //        temp = resp.data.name
+      //     });
+      //     return temp;
+      // }
     },
     mounted:function(){
-        this.getProduct(this.$route.params.productId)
+        this.getProduct(this.$route.params.productId);
+        this.initComment(this.$route.params.productId);
     }
 }
 </script>

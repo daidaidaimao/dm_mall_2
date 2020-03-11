@@ -7,7 +7,7 @@
           <figure class="media-left">
 
             <p class="image is-64x64">
-
+              {{ initProductId(p.productId)}}
               <img :src="p.productImgurl">
             </p>
           </figure>
@@ -20,7 +20,7 @@
             <nav class="level">
               <div class="level-left">
                 <div class="level-item">
-                  <a class="button is-info" @click="submitComment">提交评论</a>
+                  <a class="button is-info" @click="submitComment(p)">提交评论</a>
                 </div>
               </div>
               <div class="level-right">
@@ -68,12 +68,16 @@
             })
           },
         submitComment(){
-            this.comment.productId = this.product.productId;
+            // this.comment.productId = this.product.productId;
             this.comment.userId = this.order.userId;
             // console.log(this.comment.commentContent);
           postRequest("/user/addComment",this.comment).then( resp=>{
             console.log(resp.data.message);
           })
+
+        },
+        initProductId(val){
+            this.comment.productId = val;
         }
 
       },
