@@ -1,7 +1,10 @@
 <template>
     <div class="box">
-      <div v-for="(p,i) in product" :key="product.productId" v-show="show[i]">
-        <p class="pname">商品名称：{{p.productName}}</p>
+      <div v-for="(p,i) in product" :key="product.productId" >
+        <p class="pname">商品名称：{{p.productName}}</p><el-rate
+        v-model="score[i]"
+        show-text>
+      </el-rate>
         <article class="media">
 
           <figure class="media-left">
@@ -14,14 +17,14 @@
           <div class="media-content">
             <div class="field">
               <p class="control">
-                <textarea class="textarea" placeholder="Add a comment..." v-model="comment.commentContent"></textarea>
+                <textarea class="textarea" placeholder="Add a comment..." v-model="itemvalue[i]"></textarea>
               </p>
             </div>
             <nav class="level">
               <div class="level-left">
                 <div class="level-item">
                   <a class="button is-info" @click="submitComment(p,i)" v-if=" i !== product.length-1">提交评论</a>
-                  <a class="button is-info" v-if="i === product.length-1" @click="submitCommentlast(p)">提交评论？</a>
+                  <a class="button is-info" v-if="i === product.length-1" @click="submitCommentlast(p,i)">提交评论？</a>
                 </div>
               </div>
               <div class="level-right">
@@ -55,13 +58,16 @@
               userId:"",
               commentContent:"",
               orderId:"",
+              score:0,
             }],
-            show:[true,true,true,true,true,true,true,true,true,true,],
+            // show:[true,true,true,true,true,true,true,true,true,true,],
+            itemvalue:{},
+            score:{},
           }
         },
       methods:{
           initData(orderId){
-            console.log(this.orderId);
+            // console.log(this.orderId);
             getRequest('/user/queryItem?orderId='+orderId).then(resp=>{
               this.product = resp.data;
               console.log(this.product);
@@ -72,10 +78,13 @@
             })
           },
         submitComment(p,i){
-
-            // this.comment.productId = this.product.productId;
+          // console.log(p.productId);
+            this.comment.productId = p.productId;
             this.comment.userId = this.order.userId;
             this.comment.orderId = this.order.orderId;
+            this.comment.commentContent = this.itemvalue[i];
+            this.comment.score = this.score[i];
+            console.log(this.comment.commentContent);
             // console.log(this.comment.commentContent);
           // getRequest("/user/whetherComment?userId="+this.order.userId+"&productId="+this.comment.productId).then( resp => {
           //   if (resp.data.status === 202){
@@ -84,9 +93,10 @@
           // });
           postRequest("/user/addComment",this.comment).then( resp=>{
             console.log(resp.data.message);
-            this.show[i] = false;
+            // this.show[i] = false;
+            // console.log(this.show);
             alert("评论成功");
-            this.reload();
+            // this.reload();
           })
 
         },
@@ -97,9 +107,13 @@
             // getRequest()
           return true;
         },
-        submitCommentlast(p){
+        submitCommentlast(p,i){
+            // console.log(p.productId);
+          this.comment.productId = p.productId;
           this.comment.userId = this.order.userId;
           this.comment.orderId = this.order.orderId;
+          this.comment.commentContent = this.itemvalue[i];
+          this.comment.score = this.score[i];
           postRequest("/user/addComment",this.comment).then( resp=>{
             console.log(resp.data.message);
             getRequest("/user/finish?orderId="+this.orderId).then( resp =>{

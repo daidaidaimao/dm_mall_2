@@ -48,7 +48,12 @@
           <div class="media-content">
             <div class="content">
               <p>
-                <strong> {{ c.userName }} </strong> <small>@johnsmith</small> <small>31m</small>
+                <strong> {{ c.userName }} </strong> <small><el-rate
+                v-model="c.score"
+
+                disabled
+                show-score>
+              </el-rate></small>
                 <br>
                 {{ c.commentContent}}
               </p>
