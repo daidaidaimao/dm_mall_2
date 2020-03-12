@@ -128,6 +128,10 @@ export default {
             }else if(val === 2){
                 // this.dd = true;
                 return "待买家收货"
+            }else if(val === 3){
+              return "待评价"
+            }else if(val === 4 ){
+              return "订单完成"
             }
         },
       sortByTime(a,b){

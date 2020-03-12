@@ -177,7 +177,7 @@ export default {
         kucun(a,b){
             if(a>b){
                 a = b ;
-                alert("库存不足啦")
+                alert("库存不足啦");
                 this.reload()
             }
         },

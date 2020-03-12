@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-      <div v-for="p in product" :key="product.productId">
+      <div v-for="(p,i) in product" :key="product.productId" v-show="show[i]">
         <p class="pname">商品名称：{{p.productName}}</p>
         <article class="media">
 
@@ -20,7 +20,8 @@
             <nav class="level">
               <div class="level-left">
                 <div class="level-item">
-                  <a class="button is-info" @click="submitComment(p)">提交评论</a>
+                  <a class="button is-info" @click="submitComment(p,i)" v-if=" i !== product.length-1">提交评论</a>
+                  <a class="button is-info" v-if="i === product.length-1" @click="submitCommentlast(p)">提交评论？</a>
                 </div>
               </div>
               <div class="level-right">
@@ -43,16 +44,19 @@
 
     export default {
         name: "orderComment",
+        inject: ['reload'],
         data: function () {
           return{
             orderId:this.$route.params.orderId,
             product:[],
             Order:{},
-            comment:{
+            comment:[{
               productId:"",
               userId:"",
               commentContent:"",
-            }
+              orderId:"",
+            }],
+            show:[true,true,true,true,true,true,true,true,true,true,],
           }
         },
       methods:{
@@ -60,24 +64,48 @@
             console.log(this.orderId);
             getRequest('/user/queryItem?orderId='+orderId).then(resp=>{
               this.product = resp.data;
-              console.log(this.product)
+              console.log(this.product);
               getRequest("/user/queryOrderDetail?orderId="+orderId).then(resp=>{
                 this.order = resp.data;
                 console.log(this.order)
               })
             })
           },
-        submitComment(){
+        submitComment(p,i){
+
             // this.comment.productId = this.product.productId;
             this.comment.userId = this.order.userId;
+            this.comment.orderId = this.order.orderId;
             // console.log(this.comment.commentContent);
+          // getRequest("/user/whetherComment?userId="+this.order.userId+"&productId="+this.comment.productId).then( resp => {
+          //   if (resp.data.status === 202){
+          //
+          //   }
+          // });
           postRequest("/user/addComment",this.comment).then( resp=>{
             console.log(resp.data.message);
+            this.show[i] = false;
+            alert("评论成功");
+            this.reload();
           })
 
         },
         initProductId(val){
             this.comment.productId = val;
+        },
+        whetherComment(productId,orderId,userId){
+            // getRequest()
+          return true;
+        },
+        submitCommentlast(p){
+          this.comment.userId = this.order.userId;
+          this.comment.orderId = this.order.orderId;
+          postRequest("/user/addComment",this.comment).then( resp=>{
+            console.log(resp.data.message);
+            getRequest("/user/finish?orderId="+this.orderId).then( resp =>{
+              console.log(resp.data.message);
+            });
+          })
         }
 
       },

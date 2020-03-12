@@ -188,6 +188,8 @@ export default {
                 // this.dd = false;
                 return "待收货"
             }else if(val === 3){
+              return "订单等待评价"
+            }else if(val === 4){
               return "订单成功结束"
             }
         },
@@ -221,7 +223,7 @@ export default {
       },
       countDown() {
         let clock = window.setInterval(() => {
-          this.time = this.$cookies.get("time")
+          this.time = this.$cookies.get("time");
           // console.log(this.time)
           this.time--
         },1000)
@@ -263,7 +265,15 @@ export default {
       },
       toComment(orderId){
           this.$router.push('/comment/'+orderId);
-      }
+      },
+      // whetherComment(userId,orderId,status){
+      //     if (status === 3){
+      //     getRequest("/user/whetherComment?userId="+userId+"&orderId="+orderId).then(resp => {
+      //       console.log(resp.data);
+      //     });
+      //     }
+      // }
+
 
 
 
