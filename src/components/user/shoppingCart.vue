@@ -1,7 +1,7 @@
 <template>
 <div class="container is-widescreen">
 <el-table
-    
+
     ref="multipleTable"
     :data="cart"
     tooltip-effect="dark"
@@ -55,7 +55,7 @@
         label="操作">
         <template slot-scope="scope">
             <el-button type="primary" @click="deleteCart(scope.row.id)">删除</el-button>
-            
+
         </template>
     </el-table-column>
   </el-table>
@@ -81,7 +81,7 @@ export default {
     },
     // beforeRouteEnter:function(to,from,next){
     //     next( vm ={
-            
+
     //     })
             // let ticket = this.$cookies.get("TICKET");
             // console.log(ticket);
@@ -102,7 +102,7 @@ export default {
             //             // next();
             //         }
             //   })
-            // }  
+            // }
     // },
     methods:{
         initUsername(val){
@@ -147,16 +147,28 @@ export default {
             // console.log(val);
         },
         addOrder(val){
-            console.log(val);
-            if(val.length === 0 ){
-                alert("请选择至少一个商品下单")
-            }else{
-            this.$cookies.set("order",JSON.stringify(val));
-            this.$cookies.set("money",this.price);
-            // getRequest('/user/queryUserId?username='+)
-            this.$router.push('/order/'+this.userId);
-            }
-            
+          if(val.length === 0 ){
+            alert("请选择至少一个商品下单")
+          }else {
+            getRequest('/user/queryUnpaidNum?userId=' + this.userId).then(resp => {
+                if (resp.data.status === 200){
+                  this.$cookies.set("order",JSON.stringify(val));
+                  this.$cookies.set("money",this.price);
+                  // getRequest('/user/queryUserId?username='+)
+                  this.$router.push('/order/'+this.userId);
+                }else{
+                  alert("存在未付款订单，无法再生成订单");
+                }
+            });
+          }
+            // console.log(val);
+            //
+            // this.$cookies.set("order",JSON.stringify(val));
+            // this.$cookies.set("money",this.price);
+            // // getRequest('/user/queryUserId?username='+)
+            // this.$router.push('/order/'+this.userId);
+            //
+
         },
         deleteCart(val){
             getRequest('/user/deleteCart?id='+val).then( resp =>{

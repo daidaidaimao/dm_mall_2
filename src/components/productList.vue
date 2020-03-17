@@ -31,22 +31,23 @@
             <!-- </el-container> -->
         <div class="guanggao">
             <el-row :gutter="20">
-            <el-col :span="16"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="24"><div class="yihang">{{ p.productDescription}}</div></el-col>
+<!--            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>-->
             </el-row>
+          <el-row :gutter="20">
+            <el-col :span="4"><div class=""><img :src="tmall" style="margin-top: 15px;margin-left: 10px"/> </div></el-col>
+            <el-col :span="16"><div class=""></div></el-col>
+            <el-col :span="4"><div class=""><img :src="ali" style="margin-top: 15px;"/></div></el-col>
+          </el-row>
             <el-row :gutter="20">
-            <el-col :span="8"><div class="grid-content bg-purple">
+            <el-col :span="8"><div class="">
                 <p class="shop">呆毛的小店</p>
                 </div></el-col>
-            <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="8"><div class=""></div></el-col>
+            <el-col :span="4"><div class=""><p class="dizhi">江苏</p></div></el-col>
+            <el-col :span="4"><div class=""><p class="dizhi">南京</p></div></el-col>
             </el-row>
-            <el-row :gutter="20">
-            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="16"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
-            </el-row>
+
 
     </div>
       </div>
@@ -69,7 +70,7 @@
         :total="total">
         </el-pagination>
     </div>
- 
+
     </div>
 </template>
 <script>
@@ -82,7 +83,9 @@ export default {
             plist: [],
             total:0,
             currentPage:1,
-            fit: 'cover'
+            fit: 'cover',
+            tmall:require('@/assets/plist/tmall.png'),
+            ali:require('@/assets/plist/ali.png'),
         }
     },
     methods: {
@@ -97,7 +100,7 @@ export default {
                 this.plist = resp.data.rows;
                 this.total = resp.data.total;
                 })
-                
+
             //     this.$cookies.set("plist",JSON.stringify(resp.data.rows));
             //     this.$cookies.set("pNum",resp.data.total);
             //     })
@@ -105,14 +108,14 @@ export default {
             //         this.plist = _plist;
             //         this.total = parseInt(_pNum);
                     // this.$cookies.remove("plist");
-                // }   
+                // }
                 // console.log(resp.data);
                 // this.reload();
-                
+
                     // this.plist = resp.data.rows;
                     // this.total = resp.data.total;
-                    
-                
+
+
         },
         handleSizeChange(val) {
             // console.log(`每页 ${val} 条`);
@@ -135,6 +138,7 @@ export default {
 <style scoped>
   .el-col {
     border-radius: 4px;
+    height: 38px;
   }
   .bg-purple-dark {
     background: #99a9bf;
@@ -155,7 +159,7 @@ export default {
   }
 .guanggao{
     height: 110px;
-    background-color: aqua;
+    /*background-color: aqua;*/
 }
 .test{
     height: 40px;
@@ -197,23 +201,45 @@ export default {
     word-wrap: break-word !important;
     word-break: break-all !important;
     white-space: normal !important;
-    
+
 }
 .baoyou{
-    background-color: coral;
-    font-size: 15px;
+    background-color: red;
+    font-size: 13px;
     display: inline-block;
     color: white;
+  padding-left: 2px;
+  padding-right: 2px;
     /* text-align: center; */
     /* margin: 0 auto; */
     /* line-height: 40px; */
     /* height: 30px; */
     /* text-align: center; */
-    
+
 }
 .shop{
-    font-size: 13px;
-    
+    font-size: 11px;
+    line-height: 38px;
+    text-decoration: underline;
+    text-decoration-color: #8c939d;
+    color: #8c939d;
 }
+  .dizhi{
+    font-size: 11px;
+    line-height: 38px;
+    color: #8c939d;
+  }
+  .yihang{
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: normal !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 13px;
+    /*line-height: 38px;*/
+    padding-left: 5px;
+  }
 
 </style>
