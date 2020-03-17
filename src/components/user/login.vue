@@ -25,13 +25,15 @@
 
 <script>
 import {postRequest} from '@/utils/api.js'
+import uuidv1 from 'uuid/v1'
 export default {
     name:'login',
     data:function(){
         return{
             user:{
                 username:"",
-                password:""
+                password:"",
+                identity:"",
             },
             rules:{
                 username:[
@@ -48,11 +50,13 @@ export default {
     inject: ['reload'],
     methods:{
         submitForm: function(formName){
+            this.user.identity = uuidv1();
             let user = this.user;
                 postRequest('/user/login',user).then( resp => {
                     if(resp.data.status === 200){
+                      localStorage.setItem('identity', this.user.identity);
                     // alert("");
-                        alert(resp.data.message)
+                        alert(resp.data.message);
                         this.$router.push('/');
                         // this.$router.go(0);
                         this.reload();

@@ -20,7 +20,7 @@ import Router from 'vue-router'
 // import echart from '@/components/back/Echarts'
 // import person from
 // import registerDetail from
-Vue.use(Router)
+Vue.use(Router);
 import {getRequest} from '@/utils/api'
 import orderComment from "../components/user/orderComment";
 
@@ -78,6 +78,7 @@ export default new Router({
           name: 'person',
           beforeEnter: (to,from,next)=>{
             let userId = to.params.userId;
+            let identity = localStorage.getItem('identity');
             getRequest('/user/query/'+userId).then( resp =>{
               if(resp.data.status ===200){
                 next()

@@ -1,5 +1,13 @@
 <template>
 <div>
+  <el-alert
+    title="该商品已经下架"
+    type="warning"
+    show-icon
+    :center="true"
+    :closable="false"
+    v-show="!initProductStatus(product.productStatus)">
+  </el-alert>
     <el-container>
     <el-aside>
         <img :src="product.productImgurl" class="picture">
@@ -27,7 +35,8 @@
             </div>
             <span class="feihua" >承诺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="el-icon-warning"></i>7天无理由</span>
             <span class="mmh">支付&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;信用卡 微信 支付宝</span>
-            <el-button type="primary" class="add" @click="addCart(cart)"><i class="el-icon-goods"></i>加入购物车   </el-button>
+            <el-button type="primary" class="add" @click="addCart(cart)" v-show="initProductStatus(product.productStatus)"><i class="el-icon-goods"></i>加入购物车   </el-button>
+            <el-button type="primary" class="add" v-show="!initProductStatus(product.productStatus)">查看类似商品</el-button>
         </el-main>
     </el-container>
     </el-container>
@@ -141,6 +150,7 @@ export default {
         getProduct : function(val){
             getRequest("/product/queryOne?productId="+val).then(resp =>{
                 this.product = resp.data;
+                // console.log(resp.data)
                 this.url.push(resp.data.productImgurl);
                 this.cart.productId = resp.data.productId;
                 this.cart.productImgurl = resp.data.productImgurl;
@@ -203,6 +213,9 @@ export default {
             //     })
             //   }
           })
+      },
+      initProductStatus: function (val) {
+        return val !== 0;
       },
       // getUserName(val){
       //     let temp = "";
