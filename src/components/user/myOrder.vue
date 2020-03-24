@@ -75,7 +75,7 @@
       <template slot-scope="scope">
           {{ getStatus(scope.row.status) }}
         <el-button type="primary" size="small" @click="pay(scope.row.orderId)" v-show="nicai(scope.row.status)">付款 </el-button>
-        <el-button type="primary" size="small" :disabled="nizaicai(scope.row.status)">取消订单</el-button>
+        <el-button type="primary" size="small" :disabled="nizaicai(scope.row.status)" @click="cancelOrder(scope.row.orderId)">取消订单</el-button>
         <el-button type="primary" size="small" @click="confirmReceipt(scope.row.orderId)" v-show="caicaikan(scope.row.status)">确认收货</el-button>
         <el-button type="primary" size="small" @click="toComment(scope.row.orderId)" v-show="nixinma(scope.row.status)">评价订单</el-button>
 
@@ -273,6 +273,12 @@ export default {
       //     });
       //     }
       // }
+      cancelOrder(val){
+        getRequest("/user/cancelOrder?orderId="+val).then(resp=>{
+          console.log(resp.data.status);
+          this.reload();
+        })
+      },
 
 
 
