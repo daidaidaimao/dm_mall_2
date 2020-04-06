@@ -1,24 +1,52 @@
 <template>
   <div>
+    <div class="headOrder">
+    <b-input placeholder="输入商品标题或订单号进行搜索"
+             type="search"
+             size="is-small"
+             class="searchOrder"
+             >
+    </b-input>
+    <b-button @click="searchOrder" size="is-small" class="searchButton">订单搜索</b-button>
+    <el-button type="text" class="moreDetail"><span class="searchFont">更多筛选条件<i class="el-icon-arrow-down el-icon--right"></i></span></el-button>
+    </div>
+    <form>
+      <b-field label="交易状态"
+               :label-position="labelPosition"
+                class="orderStatus">
+        <b-select placeholder="全   部">
+          <option value="0">全部</option>
+          <option value="1">等待买家付款</option>
+          <option value="2">买家已付款</option>
+          <option value="3">卖家已发货</option>
+          <option value="6">交易成功</option>
+          <option value="7">交易关闭</option>
+        </b-select>
+      </b-field>
+    </form>
    <el-table
     :data="order"
     style="width: 100%"
 
     >
-    <el-table-column type="expand" width="200">
+    <el-table-column type="expand" width="20" >
       <template slot-scope="scope">
         <el-table
             :data="scope.row.item">
+<!--            <el-table-column-->
+<!--                label="商品名称"-->
+<!--                prop="productName"-->
+<!--            >-->
+<!--            </el-table-column>-->
             <el-table-column
-                label="商品名称"
-                prop="productName"
-            >
-            </el-table-column>
-            <el-table-column
-                label="商品图片"
+                label="宝贝"
+                width="500px"
             >
                 <template slot-scope="scope">
-                    <img :src="scope.row.productImgurl" style="width:150px;height:100px">
+                  <div >
+                    <img :src="scope.row.productImgurl" style="width:150px;height:107px;float:left">
+                    <span class="pname">{{ scope.row.productName}}</span>
+                  </div>
                 </template>
             </el-table-column>
             <el-table-column
@@ -49,27 +77,27 @@
 
 <!--     </el-table-column>-->
      <el-table-column
-       width="200px"
-       label="订单创建时间"
+       width="750px"
+       label="全部订单"
         :sortable="true"
         :sort-method="sortByTime"
 
         >
        <template slot-scope="scope">
-         {{ getTime(scope.row.orderTime) }}
+         <p class="desc">时间:{{ getTime(scope.row.orderTime) }}订单号: {{scope.row.orderId}}</p>
        </template>
      </el-table-column>
     <el-table-column
       width="77px"
-      label="订单金额"
+      label="实付款"
       prop="orderMoney">
     </el-table-column>
+<!--    <el-table-column-->
+<!--      label="收货地址"-->
+<!--      prop="address">-->
+<!--    </el-table-column>-->
     <el-table-column
-      label="收货地址"
-      prop="address">
-    </el-table-column>
-    <el-table-column
-      label="订单状态"
+      label="交易状态"
       :filters="[{ text:'待付款', value:0 },{text:'待发货',value:1}]"
       :filter-method="filterState">
       <template slot-scope="scope">
@@ -126,6 +154,7 @@ export default {
             status:"",
             time: 0,
             timexs:0,
+          labelPosition: 'on-border'
         }
     },
     inject: ['reload'],
@@ -279,6 +308,9 @@ export default {
           this.reload();
         })
       },
+      searchOrder(val){
+          alert("nothing");
+      }
 
 
 
@@ -304,4 +336,38 @@ export default {
     margin-bottom: 0;
     width: 50%;
   } */
+  .desc{
+    font-size: 10px;
+  }
+  .pname{
+    font-size: 10px;
+    padding-left: 1%;
+  }
+  .headOrder{
+    height: 27px;
+    margin-bottom: 1%;
+  }
+  .searchOrder{
+    width: 30%;
+    display: inline-block;
+    float: left;
+  }
+  .searchButton{
+    float: left;
+    display: inline-block;
+  }
+  .searchFont{
+    float: left;
+    font-size: 12px;
+    height: 27px;
+    line-height: 27px;
+    padding-left: 1%;
+  }
+  .moreDetail{
+    display: inline-block;
+    float:left;
+    padding: 0 0 0 1%;
+    color: black;
+  }
+
 </style>

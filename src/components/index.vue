@@ -40,7 +40,22 @@
     <router-view />
     <router-view name="left"/>
       <router-view name="right" :key="key"/>
-
+      <el-divider></el-divider>
+      <div class="tb-footer-bd">
+        <p>
+          <span><a href="https://www.taobao.com/tbhome/page/about/home">关于淘宝</a></span><span><a href="https://www.taobao.com/tbhome/page/about/partner?spm=a21bo.9614792.102.5.ed410c5siU20Y">合作伙伴</a></span><span><a href="http://pro.taobao.com">营销中心</a></span><span><a href="http://jubao.alibaba.com/internet/readme.htm?site=taobao">廉正举报</a></span><span><a href="https://consumerservice.taobao.com/">联系客服</a></span><span><a href="http://open.taobao.com">开放平台</a></span><span><a href="http://www.taobao.com/about/join.php">诚征英才</a></span><span><a href="http://consumerservice.taobao.com/contact-us">联系我们</a></span><span><a href="https://www.taobao.com/tbhome/page/sitemap">网站地图</a></span><span><a href="https://terms.alicdn.com/legal-agreement/terms/suit_bu1_taobao/suit_bu1_taobao201703241622_61002.html">隐私权政策</a></span><span><a href="https://terms.alicdn.com/legal-agreement/terms/suit_bu1_taobao/suit_bu1_taobao201811121436_80276.html">法律声明</a></span><span><a href="http://ipp.alibabagroup.com/">知识产权</a></span>
+          <b>|</b> <em>© 2003-现在 Taobao.com 版权所有</em>
+        </p>
+        <p><span><a href="http://www.beian.miit.gov.cn">增值电信业务经营许可证：浙B2-20080224</a></span><b>|</b><span><a href="http://www.beian.miit.gov.cn">增值电信业务经营许可证（跨地区）： B2-20150210</a></span><b>|</b><span><a href="http://sq.ccm.gov.cn/ccnt/sczr/service/business/emark/toDetail/2E7819FC84674D5980464916C24B7E3E">浙网文（2019）1033-086号</a></span><b>|</b><span>浙江省网络食品销售第三方平台提供者备案：浙网食A33010001</span>
+        </p>
+        <p class="disanhang"><span>互联网药品信息服务资格证书（浙）-经营性-2018-0010</span><b>|</b><span>短消息类服务接入代码使用证书：号【2016】00154-A01</span><b>|</b><span>信息网络传播视听许可证：1109364号</span><b>|</b><span>出版物网络交易平台服务经营备案号：新出发浙备字第002号</span>
+        </p>
+        <p><span>
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010002000078">
+              <span class="tb-footer-mod" style="background-position:-861px 0px; width:20px; height: 20px; "></span>
+              浙公网安备 33010002000078号
+            </a></span><b>|</b><span>广播电视节目制作经营许可证（浙）字第01012号</span><b>|</b><span>市场名称登记证：工商网市字3301004120号</span><b>|</b><span>医疗器械网络交易服务第三方平台备案：（浙）网械平台备字[2018]第00004号</span></p>
+      </div>
     </div>
   </div>
 </template>
@@ -216,4 +231,13 @@ export default {
 </script>
 
 <style scoped>
+  .tb-footer-bd{
+    font-size: 10px;
+  }
+  .tb-footer-bd span{
+    padding: 1%;
+  }
+  .disanhang{
+    padding: 0;
+  }
 </style>
