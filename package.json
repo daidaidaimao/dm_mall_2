@@ -12,6 +12,11 @@
   "dependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-regular-svg-icons": "^5.13.0",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/vue-fontawesome": "^0.1.9",
+    "@mdi/font": "^5.0.45",
     "@smallwei/avue": "^2.3.7",
     "ajv": "^6.9.1",
     "ant-design-vue": "^1.4.10",
@@ -37,6 +42,7 @@
     "webpack-dev-server": "^2.11.5"
   },
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",

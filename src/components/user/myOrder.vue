@@ -8,9 +8,9 @@
              >
     </b-input>
     <b-button @click="searchOrder" size="is-small" class="searchButton">订单搜索</b-button>
-    <el-button type="text" class="moreDetail"><span class="searchFont">更多筛选条件<i class="el-icon-arrow-down el-icon--right"></i></span></el-button>
+    <el-button type="text" class="moreDetail" @click="showLimit()"><span class="searchFont">{{ bName}}<i class="el-icon-arrow-down el-icon--right"></i></span></el-button>
     </div>
-    <form>
+    <form v-show="moreLimit">
       <b-field label="交易状态"
                :label-position="labelPosition"
                 class="orderStatus">
@@ -22,6 +22,24 @@
           <option value="6">交易成功</option>
           <option value="7">交易关闭</option>
         </b-select>
+      </b-field>
+      <b-field label="成交时间" :label-position="labelPosition" class="orderTime">
+        <b-datepicker
+          placeholder="请选择时间范围起始和结束"
+          v-model="dates"
+          range>
+          <button class="button is-danger"
+                  @click="dates = null">
+            <b-icon icon="close"></b-icon>
+            <span>清除</span>
+          </button>
+        </b-datepicker>
+      </b-field>
+
+      <b-field label="卖家昵称"
+               :label-position="labelPosition"
+               class="saleName">
+        <b-input v-model="saleName"></b-input>
       </b-field>
     </form>
    <el-table
@@ -154,7 +172,12 @@ export default {
             status:"",
             time: 0,
             timexs:0,
-          labelPosition: 'on-border'
+            labelPosition: 'on-border',
+            dates:[],
+            saleName:"",
+            moreLimit:false,
+            isAdvanced:false,
+            bName:"更多筛选条件",
         }
     },
     inject: ['reload'],
@@ -207,19 +230,19 @@ export default {
         },
         getStatus(val){
             if(val === 0){
-                return "待付款"
+                return "等待买家付款"
             }else if(val ===1){
                 // this.dd = false;
-                return "待发货"
+                return "买家已付款"
             }else if(val === -1){
-                return "订单取消"
+                return "交易关闭"
             }else if(val === 2){
                 // this.dd = false;
-                return "待收货"
+                return "卖家已发货"
             }else if(val === 3){
               return "订单等待评价"
             }else if(val === 4){
-              return "订单成功结束"
+              return "交易成功"
             }
         },
         getTime(val){
@@ -310,6 +333,17 @@ export default {
       },
       searchOrder(val){
           alert("nothing");
+      },
+      showLimit(val){
+          this.isAdvanced = !this.isAdvanced;
+          if(this.isAdvanced){
+            this.moreLimit = true;
+
+            this.bName = "收起";
+          }else{
+            this.moreLimit = false;
+            this.bName = "更多筛选条件";
+          }
       }
 
 
@@ -345,7 +379,7 @@ export default {
   }
   .headOrder{
     height: 27px;
-    margin-bottom: 1%;
+    margin-bottom: 2%;
   }
   .searchOrder{
     width: 30%;
@@ -368,6 +402,20 @@ export default {
     float:left;
     padding: 0 0 0 1%;
     color: black;
+  }
+  .orderStatus{
+    display: inline-block;
+    float: left;
+    margin-right: 10%;
+  }
+  .orderTime{
+    width: 30%;
+    display: inline-block;
+    float: left;
+  }
+  .saleName{
+    display: inline-block;
+    width: 30%;
   }
 
 </style>

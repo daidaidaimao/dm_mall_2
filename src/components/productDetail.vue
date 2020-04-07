@@ -30,7 +30,10 @@
              <el-divider></el-divider>
             <div class="num_1">
                 <span class="num_2">数量</span>
-                <input type="number" v-model="p_num" placeholder="1" class="num_3" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')" @change="kucun(p_num,product.productNum)">
+<!--                <input type="number" v-model="p_num" placeholder="1" class="num_3" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')" @change="kucun(p_num,product.productNum)">-->
+              <b-field>
+                <b-numberinput v-model="p_num" @change="kucun(p_num,product.productNum)"></b-numberinput>
+              </b-field>
                 <span class="kucun">(库存：{{product.productNum}}件)</span>
             </div>
             <span class="feihua" >承诺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="el-icon-warning"></i>7天无理由</span>
