@@ -10,9 +10,11 @@
         <section>
         <b-tabs v-model="activeTab">
             <b-tab-item label="基本信息">
+<!--                <AvatarTest></AvatarTest>-->
                 <!-- <a-avatar :size="64" icon="user" /> -->
                 <!-- <br/> -->
                 <!-- <router-link :to="{path: '/completeInfo/'+u.username }">您的信息尚未完善 点击去完善信息</router-link> -->
+              <router-link :to="'/detail/'+u.userId+'/changeAvatar'" >更改头像</router-link>
                 用户名: {{ u.name }}
                 <el-divider></el-divider>
                 注册时间:{{ getTime(u.createTime) }}
@@ -33,9 +35,9 @@
                 4 <br>
                 还没做好.
             </b-tab-item>
-            <b-tab-item label="我的消息">
+            <b-tab-item label="头像设置">
                 <!-- <shoppingCart params/> -->
-                还没做好
+                <router-view/>
             </b-tab-item>
 
             <b-tab-item label="我的标签">
@@ -60,6 +62,7 @@ export default {
             userId: this.$route.params.userId,
         }
     },
+
     methods: {
         getTime(timestamp) {
             return timestampToTime(timestamp)

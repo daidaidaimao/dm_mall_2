@@ -89,6 +89,24 @@ export default new Router({
             })
           },
           component: person => import('@/components/user/person'),
+          children:[
+            {
+              path:'changeAvatar',
+              beforeEnter: (to,from,next)=>{
+                let userId = from.params.userId;
+                let identity = localStorage.getItem('identity');
+                getRequest('/user/query/'+userId).then( resp =>{
+                  if(resp.data.status ===200){
+                    next()
+                  }else{
+                    alert(resp.data.message);
+                    next('/')
+                  }
+                })
+              },
+              component: avatar => import('../utils/Avatar')
+            }
+          ]
         },{
           path:'/completeInfo/:userId',
           beforeEnter: (to,from,next)=>{
@@ -200,7 +218,7 @@ export default new Router({
             });
           },
           component: orderComment => import('../components/user/orderComment')
-        }
+        },
 
 
         // {

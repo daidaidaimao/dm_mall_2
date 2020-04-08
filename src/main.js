@@ -20,6 +20,8 @@ import 'buefy/dist/buefy.css'
 // Vue.use(Table)
 // Vue.use(Input)
 
+import VueCropper from 'vue-cropper'
+Vue.use(VueCropper);
 Vue.use(Buefy,);
 
 Vue.component('v-chart', ECharts);

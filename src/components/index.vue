@@ -32,9 +32,11 @@
           :src="url"
           :fit="fit"
           class="pic"/></div></el-col>
-      <el-col :span="8"><div class="grid-content bg-purple-light"></div>秒杀(我就不做了)</el-col>
-      <el-col :span="8"><div class="grid-content bg-purple" style="display: inline-block">
-        <el-input v-model="input" placeholder="请输入内容" style="width:65%;margin-top: 10%"/><el-button type="primary" icon="el-icon-search">搜索</el-button></div>
+      <el-col :span="15"><div class="grid-content bg-purple-light">
+        <el-input v-model="input" placeholder="外套男春夏装" style="width:65%;margin-top: 10%"/><el-button type="primary" icon="el-icon-search">搜索</el-button>
+      </div></el-col>
+      <el-col :span="1"><div class="grid-content bg-purple" style="display: inline-block">
+        </div>
       </el-col>
     </el-row>
     <router-view />
