@@ -124,7 +124,7 @@
         <el-button type="primary" size="small" :disabled="nizaicai(scope.row.status)" @click="cancelOrder(scope.row.orderId)">取消订单</el-button>
         <el-button type="primary" size="small" @click="confirmReceipt(scope.row.orderId)" v-show="caicaikan(scope.row.status)">确认收货</el-button>
         <el-button type="primary" size="small" @click="toComment(scope.row.orderId)" v-show="nixinma(scope.row.status)">评价订单</el-button>
-
+        <router-link :to="'/orderDetail/'+scope.row.orderId">订单详情</router-link>
         {{ queryOrderTime(scope.row.orderId,scope.row.status) }}
 
         <p v-show="nicai(scope.row.status)" >距离订单过期还有{{ time }}秒</p>

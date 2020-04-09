@@ -66,9 +66,11 @@
         </el-form>
   </div>
   <el-steps :active="1" align-center>
-  <el-step title="创建订单" description="创建订单中"></el-step>
-  <el-step title="付 款" description="等待付款"></el-step>
-  <el-step title="步骤 3" description="这段就没那么长了"></el-step>
+  <el-step title="拍下物品" description="2020-4-9 16:48:30"></el-step>
+  <el-step title="付款到呆毛宝" description="2020-4-9 16:48:34"></el-step>
+  <el-step title="卖家发货" description="2020-4-9 16:48:54"></el-step>
+    <el-step title="确认收货" description="2020-4-9 16:48:54"></el-step>
+    <el-step title="评价" description="2020-4-9 16:48:54"></el-step>
 </el-steps>
 </div>
 </template>

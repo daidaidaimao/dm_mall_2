@@ -218,7 +218,27 @@ export default new Router({
             });
           },
           component: orderComment => import('../components/user/orderComment')
-        },
+        },{
+          path:'/orderDetail/:orderId',
+          beforeEnter: (to,from,next)=>{
+            let orderId = to.params.orderId;
+            console.log("orderId="+orderId);
+            getRequest('/user/queryByOrderId?orderId='+orderId).then( resp=>{
+              let userId = resp.data;
+              console.log(userId);
+              getRequest('/user/query/'+userId).then( resp =>{
+                if(resp.data.status ===200){
+                  next()
+                }else{
+                  alert(resp.data.message);
+                  next('/')
+                }
+              })
+            });
+          },
+          component: orderDetail => import('../components/user/orderDetail')
+
+        }
 
 
         // {
