@@ -52,7 +52,7 @@
         <article class="media">
           <figure class="media-left">
             <p class="image is-64x64">
-              <img src="https://bulma.io/images/placeholders/128x128.png">
+              <img :src="aurl">
             </p>
           </figure>
           <div class="media-content">
@@ -138,6 +138,7 @@ export default {
                 productName:""
             },
           comment:[],
+          aurl:"",
         }
     },
     methods:{
@@ -202,6 +203,16 @@ export default {
             // console.log(val)
             this.comment = resp.data;
             console.log(this.comment);
+            var i;
+            for (i=0;i<this.comment.length;i++) {
+              getRequest('/user/partDetail?userId=' + this.comment[i].userId).then(resp => {
+                if (resp.data.status === 200) {
+                  this.aurl = resp.data.data.avatarUrl;
+                } else {
+                  alert(resp.data.message);
+                }
+              })
+            }
             // var i ;
             //   for (i=0; i<this.comment.length; i++){
             //     console.log(this.comment[i].userId);

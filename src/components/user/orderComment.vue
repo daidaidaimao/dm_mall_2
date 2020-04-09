@@ -118,6 +118,7 @@
             console.log(resp.data.message);
             getRequest("/user/finish?orderId="+this.orderId).then( resp =>{
               console.log(resp.data.message);
+
             });
           })
         }

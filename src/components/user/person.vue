@@ -10,11 +10,14 @@
         <section>
         <b-tabs v-model="activeTab">
             <b-tab-item label="基本信息">
+              <img :src="u.avatarUrl" alt="暂无头像" class="avatarDai"/>
+
+              <el-divider></el-divider>
 <!--                <AvatarTest></AvatarTest>-->
                 <!-- <a-avatar :size="64" icon="user" /> -->
                 <!-- <br/> -->
                 <!-- <router-link :to="{path: '/completeInfo/'+u.username }">您的信息尚未完善 点击去完善信息</router-link> -->
-              <router-link :to="'/detail/'+u.userId+'/changeAvatar'" >更改头像</router-link>
+<!--              不写头像裁剪了<router-link :to="'/detail/'+u.userId+'/changeAvatar'" >更改头像</router-link>-->
                 用户名: {{ u.name }}
                 <el-divider></el-divider>
                 注册时间:{{ getTime(u.createTime) }}
@@ -35,9 +38,9 @@
                 4 <br>
                 还没做好.
             </b-tab-item>
-            <b-tab-item label="头像设置">
+            <b-tab-item label="不知道干嘛">
                 <!-- <shoppingCart params/> -->
-                <router-view/>
+
             </b-tab-item>
 
             <b-tab-item label="我的标签">
@@ -103,4 +106,9 @@ export default {
 .b-input{
     text-align: center
 }
+  .avatarDai{
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+  }
 </style>

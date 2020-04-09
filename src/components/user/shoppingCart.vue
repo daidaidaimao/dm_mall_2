@@ -32,7 +32,8 @@
       header-align="center"
       show-overflow-tooltip>
         <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id)" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></el-input>
+          <el-input-number v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id)" :min="1" :max="100" label="商品数量"></el-input-number>
+<!--            <el-input type="number" v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id)" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></el-input>-->
         </template>
     </el-table-column>
     <el-table-column

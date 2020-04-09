@@ -3,6 +3,10 @@
         <el-form-item label="当前账号">
                 <el-input v-model="person.userId" disabled></el-input>
          </el-form-item>
+        <img :src="person.avatarUrl" alt="暂无头像" class="avatarDai"/>
+        <el-form-item label="头像设置">
+          <input type="file"  name="imgOne" @change="onUpload($event)" >
+        </el-form-item>
          <el-form-item label="用户名">
                 <el-input v-model="person.name" ></el-input>
          </el-form-item>
@@ -41,6 +45,7 @@
 <script>
 import { getRequest } from '@/utils/api.js'
 import { postRequest } from '@/utils/api.js'
+import {uploadFileRequest} from '../../utils/api.js'
 export default {
     inject: ['reload'],
     data: function(){
@@ -93,13 +98,22 @@ export default {
         submitForm(formName) {
                 // alert('submit!');
                 console.log(this.person);
-                let p = this.person
-                postRequest("/user/addDetail?userId="+this.person.userId+"&avatarUrl&gender="+this.person.gender+"&name="+this.person.name+"&email="+this.person.email+"&phone="+
+                //let p = this.person;
+
+                postRequest("/user/addDetail?userId="+this.person.userId+"&avatarUrl="+this.person.avatarUrl+"&gender="+this.person.gender+"&name="+this.person.name+"&email="+this.person.email+"&phone="+
                 this.person.phone).then( resp => {
                     alert(resp.data.message);
                     this.reload();
                 })
         },
+        onUpload: function(e){
+        let formData = new FormData();
+        formData.append("pic",e.target.files[0]);
+        uploadFileRequest("/product/picupload",formData).then(resp=>{
+          console.log(resp.data);
+          this.person.avatarUrl = resp.data;
+        })
+      },
     },
     mounted:function(){
         this.initData(this.person.username);
@@ -108,5 +122,9 @@ export default {
 </script>
 
 <style scoped>
-
+  .avatarDai{
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+  }
 </style>
