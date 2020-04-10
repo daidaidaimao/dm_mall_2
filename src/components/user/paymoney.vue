@@ -45,8 +45,8 @@ export default {
               })
             })
         });
-            alert("付款成功")
-            // this.$router.back(-1)
+            alert("付款成功");
+            this.$router.push('/orderDetail/'+this.orderId)
         }
     }
 }
