@@ -14,7 +14,9 @@
         <p style="font-size: 12px;margin: 10% 0 2% 6%;">收货地址:{{order.address}}</p>
         <p style="font-size: 12px;margin: 2% 0 2% 6%;"> 买家留言: -</p>
         <p style="font-size: 12px;margin: 2% 0 2% 6%;">订单编号:{{order.orderId}}</p>
-        <p style="font-size: 12px;margin: 2% 0 2% 6%;">商家:DaiMaoMall</p>
+        <p style="font-size: 12px;margin: 2% 0 2% 6%;line-height: 33px;">商家:DaiMaoMall
+        <img :src="ali" style="align-content: center;line-height: 33px;vertical-align: middle;" title="点击直接和卖家交流选好的宝贝（未实现）"/>
+        </p>
       </el-aside>
       <el-main class="orderContainer_3" v-if="order.status===2">
         <p style="text-align: left;margin-left: 10%"><i class="el-icon-warning-outline" style="font-size: 40px;margin-right: 2%;color: blue"></i><span style="font-weight: bold">订单状态: 商家已发货，等待买家确认</span></p>
@@ -22,7 +24,7 @@
         <li><p style="font-size: 12px">您还有6天8小时41分37秒;来确认收货,超时订单自动确认收货</p></li>
         <li><p style="font-size: 12px"> 物流：邮政快递包裹运单号:9898553888408</p></li>
         <li><p style="font-size: 12px"> 2020-04-09 18:35:22 您已在南京青年城绯云苑5栋店完成取件，感谢使用菜鸟驿站，期待再次为您服务。</p></li>
-        <li style="margin-top: 5%"><p style="font-size: 12px"><span>您可以</span> </p></li>
+        <li style="margin-top: 5%;line-height: 27px"><p style="font-size: 12px"><span>您可以</span> <b-button size="is-small" @click="confirmReceipt(orderId)">确认收货</b-button></p></li>
       </ul>
       </el-main>
       <el-main class="orderContainer_3" v-if="order.status===-1">
@@ -111,8 +113,10 @@ export default {
         statusIndex:3,
         order:{},
         orderItem:[],
+        ali:require('@/assets/plist/ali.png'),
       }
   },
+  inject: ['reload'],
   methods:{
     initOrderItem(val){
       getRequest('/user/queryItem?orderId='+val).then( resp => {
@@ -133,6 +137,12 @@ export default {
         })
       })
     },
+    confirmReceipt(val){
+      getRequest('/user/confirmReceipt?orderId='+val).then(resp=>{
+        alert(resp.data.message);
+        this.reload();
+      })
+    },
   },
   mounted() {
     this.initOrderItem(this.orderId);
@@ -145,6 +155,7 @@ export default {
   border-style: solid;
   border-width: 1px;
   border-color: #DDD;
+  margin-top: 3%;
 }
 .orderContainer_2{
   border-style: solid;
