@@ -1,6 +1,14 @@
 <template>
     <div id="productList">
         <!-- 商品展示 -->
+
+      <el-breadcrumb separator="/" >
+
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }">商品分类</el-breadcrumb-item>
+        <el-breadcrumb-item>{{categoryName}}</el-breadcrumb-item>
+<!--        <el-breadcrumb-item>活动详情</el-breadcrumb-item>-->
+      </el-breadcrumb>
  <div class="list" v-for="p in plist" v-bind:key="p.productId">
         <!-- <el-container> -->
         <img :src="p.productImgurl" class="picture" style="width:300px;height:400px"  @click="goDetail(p.productId)" alt="nima">
@@ -81,6 +89,7 @@ export default {
             // num: 5,
           tmall:require('@/assets/plist/tmall.png'),
           ali:require('@/assets/plist/ali.png'),
+          categoryName:"",
         }
     },
     methods: {
@@ -93,7 +102,6 @@ export default {
                     this.plist = resp.data.rows;
                     this.total = resp.data.total;
                 }
-
                 // console.log(resp.data);
                 // console.log(this.productCategory,page,num)
             })
@@ -116,10 +124,16 @@ export default {
         goDetail(val){
             this.$router.push({name: 'productDetail',params:{productId:val}})
         },
+        initCategoryName(val){
+          getRequest('/product/queryCategoryName?categoryId='+val).then( resp =>{
+            this.categoryName = resp.data;
+          })
+        }
 
     },
     mounted:function(){
         this.productList(1,5);
+        this.initCategoryName(this.productCategory)
     }
 }
 </script>

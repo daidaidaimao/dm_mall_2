@@ -45,12 +45,14 @@
    <el-table
     :data="order"
     style="width: 100%"
-
+    class="tableOrderItem"
+    :border=true
     >
     <el-table-column type="expand" width="20" >
       <template slot-scope="scope">
         <el-table
-            :data="scope.row.item">
+            :data="scope.row.item"
+            class="tableOrderItem">
 <!--            <el-table-column-->
 <!--                label="商品名称"-->
 <!--                prop="productName"-->
@@ -95,7 +97,7 @@
 
 <!--     </el-table-column>-->
      <el-table-column
-       width="750px"
+       width="450px"
        label="全部订单"
         :sortable="true"
         :sort-method="sortByTime"
@@ -106,8 +108,8 @@
        </template>
      </el-table-column>
     <el-table-column
-      width="77px"
-      label="实付款"
+      width="150px"
+      label="实付款(人民币￥)"
       prop="orderMoney">
     </el-table-column>
 <!--    <el-table-column-->
@@ -116,19 +118,14 @@
 <!--    </el-table-column>-->
     <el-table-column
       label="交易状态"
+      width="200px"
       :filters="[{ text:'待付款', value:0 },{text:'待发货',value:1}]"
       :filter-method="filterState">
-      <template slot-scope="scope">
-          {{ getStatus(scope.row.status) }}
-        <el-button type="primary" size="small" @click="pay(scope.row.orderId)" v-show="nicai(scope.row.status)">付款 </el-button>
-        <el-button type="primary" size="small" :disabled="nizaicai(scope.row.status)" @click="cancelOrder(scope.row.orderId)">取消订单</el-button>
-        <el-button type="primary" size="small" @click="confirmReceipt(scope.row.orderId)" v-show="caicaikan(scope.row.status)">确认收货</el-button>
-        <el-button type="primary" size="small" @click="toComment(scope.row.orderId)" v-show="nixinma(scope.row.status)">评价订单</el-button>
-
+      <template slot-scope="scope" >
+        <p style="font-size: 12px">{{ getStatus(scope.row.status) }}</p>
+        <router-link :to="'/orderDetail/'+scope.row.orderId" style="display: block;font-size: 12px">订单详情</router-link>
         {{ queryOrderTime(scope.row.orderId,scope.row.status) }}
-
-        <p v-show="nicai(scope.row.status)" >距离订单过期还有{{ time }}秒</p>
-
+        <p v-if="scope.row.status ===0 " >距离订单过期还有{{ time }}秒</p>
 <!--        <count-down  :currentTime="0" :startTime="0" :endTime="54646" :tipText="'剩余付款时间'" :tipTextEnd="'剩余付款时间'" :endText="'订单已经取消，请重新下单'" :dayTxt="'天'" :hourTxt="'小时'" :minutesTxt="'分钟'" :secondsTxt="'秒'" ></count-down>-->
 <!--        {{ queryOrderTime(scope.row.orderId,scope.row.status) }}-->
 
@@ -136,6 +133,18 @@
 
       </template>
     </el-table-column>
+     <el-table-column
+       label="操作">
+       <template slot-scope="scope" >
+         <b-button   @click="pay(scope.row.orderId)" v-if="scope.row.status === 0" style="margin: 1%">点我付款 </b-button>
+         <b-button  v-if="scope.row.status ===0 " @click="cancelOrder(scope.row.orderId)" style="margin: 0">取消订单</b-button>
+         <b-button  @click="confirmReceipt(scope.row.orderId)" v-if="scope.row.status === 2">确认收货</b-button>
+         <b-button  @click="toComment(scope.row.orderId)" v-if="scope.row.status === 3">评价订单</b-button>
+         <el-button  icon="el-icon-delete" circle style="display: inline-block;float: right" title="删除该订单" v-if="scope.row.status ===3||scope.row.status ===4|| scope.row.status === -1 "
+                     @click="open"
+         ></el-button>
+       </template>
+     </el-table-column>
 
   </el-table>
     <div class="block">
@@ -270,9 +279,9 @@ export default {
           })
           }
           },
-      nizaicai(val){
-          return val !== 0;
-      },
+      // nizaicai(val){
+      //     return val !== 0;
+      // },
       countDown() {
         let clock = window.setInterval(() => {
           this.time = this.$cookies.get("time");
@@ -309,12 +318,12 @@ export default {
             this.reload();
           })
     },
-      caicaikan(val){
-          return val === 2;
-      },
-      nixinma(val){
-          return val === 3;
-      },
+      // caicaikan(val){
+      //     return val === 2;
+      // },
+      // nixinma(val){
+      //     return val === 3;
+      // },
       toComment(orderId){
           this.$router.push('/comment/'+orderId);
       },
@@ -344,7 +353,25 @@ export default {
             this.moreLimit = false;
             this.bName = "更多筛选条件";
           }
-      }
+      },
+      open(){
+        this.$confirm('此操作将永久删除该订单,不可恢复, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
+      },
 
 
 
@@ -416,6 +443,12 @@ export default {
   .saleName{
     display: inline-block;
     width: 30%;
+  }
+  .tableOrderItem{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #DDD;
+    margin-top: 1%;
   }
 
 </style>

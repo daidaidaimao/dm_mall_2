@@ -38,6 +38,13 @@
           </div>
         </article>
       </div>
+      <el-steps :active="5" align-center>
+        <el-step title="拍下物品" description="2020-4-9 16:48:30"></el-step>
+        <el-step title="付款到呆毛宝" description="2020-4-9 16:48:34"></el-step>
+        <el-step title="卖家发货" description="2020-4-9 16:48:54"></el-step>
+        <el-step title="确认收货" description="2020-4-9 16:48:54"></el-step>
+        <el-step title="评价" description="2020-4-9 16:48:54"></el-step>
+      </el-steps>
     </div>
 </template>
 
@@ -118,6 +125,8 @@
             console.log(resp.data.message);
             getRequest("/user/finish?orderId="+this.orderId).then( resp =>{
               console.log(resp.data.message);
+              alert("感谢您的支持");
+              this.$router.push('/orderDetail/'+this.order.orderId);
             });
           })
         }

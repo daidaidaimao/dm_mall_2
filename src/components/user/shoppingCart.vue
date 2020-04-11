@@ -12,18 +12,20 @@
       width="55"
       header-align="center">
     </el-table-column>
+<!--    <el-table-column-->
+<!--      prop="productName"-->
+<!--      label="商品名称"-->
+<!--      width="120"-->
+<!--      header-align="center">-->
+<!--    </el-table-column>-->
     <el-table-column
-      prop="productName"
-      label="商品名称"
-      width="120"
-      header-align="center">
-    </el-table-column>
-    <el-table-column
-      label="商品图片"
+      width="300px"
+      label="商品"
       show-overflow-tooltip
       header-align="center">
       <template slot-scope="scope">
-          <img :src="scope.row.productImgurl" style="width:300px;height:200px">
+          <img :src="scope.row.productImgurl" style="width:80px;height:80px;float: left">
+        <p>{{scope.row.productName}}</p>
       </template>
     </el-table-column>
     <el-table-column
@@ -32,7 +34,8 @@
       header-align="center"
       show-overflow-tooltip>
         <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id)" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></el-input>
+          <el-input-number v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id)" :min="1" :max="100" label="商品数量"></el-input-number>
+<!--            <el-input type="number" v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id)" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></el-input>-->
         </template>
     </el-table-column>
     <el-table-column
@@ -46,9 +49,10 @@
       label="总价"
       align="center"
       header-align="center"
-      show-overflow-tooltip>
+      show-overflow-tooltip
+    >
       <template slot-scope="scope">
-        {{scope.row.productNum * scope.row.productPrice}}
+        <p style="color: #f40;font-weight: bold;font-size: 15px">￥{{scope.row.productNum * scope.row.productPrice}}</p>
       </template>
     </el-table-column>
     <el-table-column
@@ -59,9 +63,21 @@
         </template>
     </el-table-column>
   </el-table>
-  <div style="margin-top: 20px">
-    价格：{{price}}
-    <el-button type="primary" @click="addOrder(checked)">提交订单</el-button>
+  <div style="margin-top: 20px;background-color: #e5e5e5;height: 50px">
+    <el-button
+      v-if="price === 0"
+      type="primary" @click="addOrder(checked)"
+      style="float: right;height: 50px;width: 120px;font-size: 20px;font-weight: bold; background-color: #B0B0B0;border: 0;margin-left: 10%"
+      :disabled=true>
+      结 算</el-button>
+    <el-button
+      v-if="price !== 0"
+      type="primary" @click="addOrder(checked)"
+      style="float: right;height: 50px;width: 120px;font-size: 20px;font-weight: bold; background-color: #f40;border: 0;margin-left: 10%"
+    >
+      结 算</el-button>
+    <p style="line-height: 50px;display: inline-block;float: right">合计（不含运费）：<span style="font-size: 25px;font-weight: bold;color: #f40;"> ￥{{price}}</span></p>
+
   </div>
 </div>
 </template>

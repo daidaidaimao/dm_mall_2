@@ -10,6 +10,7 @@
       <el-menu-item index="5" >我的订单</el-menu-item>
       <el-menu-item index="6" v-show="show" style="margin-right:20%">
           <el-dropdown @command="handleCommand">
+            <img :src="aurl" alt="暂无头像" class="avatarDai"/>
             <span class="el-dropdown-link">
             {{status}}<i class="el-icon-arrow-down el-icon--right"/>
             </span>
@@ -78,6 +79,8 @@ export default {
       url: require('@/assets/logodm.png'),
       fit: 'cover',
       ticket :this.$cookies.get("TICKET"),
+      aurl:"",
+
     }
   },
   computed:{
@@ -120,22 +123,7 @@ export default {
               // })
           // }
       }else if(key === '5'){
-          // let ticket = this.$cookies.get("TICKET");
-          // let username  = ticket.substr(42);
-          // if(ticket === null){
-          //     alert("还未登陆，点击确定转入登陆界面");
-          //     this.$router.push('/login');
-          //     this.reload();
-          // }else{
-          //     getRequest('/user/query/'+ticket).then( resp =>{
-          //       if(resp.data.status === 201){
-          //         alert(resp.data.message);
-          //         getRequest("/user/out?ticket="+ticket).then( resp => {
-          //           // this.$cookies.remove("TICKET");
-          //           this.reload();
-          //     })
-          //       }else{
-                  // getRequest('/user/queryUserId?username='+username).then( resp =>{
+
         if(ticket == null){
           alert("还未登陆，点击确定转入登陆界面");
           this.$router.push('/login');
@@ -167,27 +155,10 @@ export default {
             this.reload()
           })
         }else if(command === "person"){
-          // let ticket = this.$cookies.get("TICKET");
-          // getRequest('/user/query/'+ticket).then( resp => {
-          //   if (resp.data.status === 201){
-          //     alert(resp.data.message);
-          //     getRequest("/user/out?ticket="+ticket).then( resp => {
-          //       this.$cookies.remove("TICKET");
-          //       this.reload();
-          //     })
-          //   }else{
-              // alert("进入个人中心");
               this.$router.push('/detail/'+ticket);
-          //   }
-          // })
-          // if(ticket!==null){
-          //   this.$router.push('/');
-          // }else{
-          //   this.$router.push('/login');
-          // }
         }
       },
-      queryTicket(){
+      queryTicket(val){
         let ticket = this.$cookies.get("TICKET");
         if(ticket !== null){
         getRequest('/user/query/'+ticket).then( resp => {
@@ -206,7 +177,15 @@ export default {
             this.show = true;
             getRequest('/user/queryUsername?userId='+ticket).then( resp =>{
               // console.log(resp.data)
-            this.status = "欢迎您"+resp.data;
+
+              getRequest('/user/partDetail?userId='+val).then( resp =>{
+                if(resp.data.status ===200){
+                  this.aurl = resp.data.data.avatarUrl;
+                  this.status = resp.data.data.name;
+                }else{
+                  alert(resp.data.message);
+                }
+              })
             })
 
             // this.$forceUpdate();
@@ -214,18 +193,15 @@ export default {
         })
         }
       },
-    // refresh () {
-    //   this.$router.replace({
-    //   path: '/refresh',
-    //   query: {
-    //     t: Date.now()
-    //     }
-    //   })
-    // }
+    initData(val){
+
+
+    },
   },
   mounted:function(){
     // this.getStatus();
-    this.queryTicket();
+    this.queryTicket(this.ticket);
+    //this.initData(this.ticket);
     // this.$root.reload()
     // this.refresh();
   }
@@ -241,5 +217,10 @@ export default {
   }
   .disanhang{
     padding: 0;
+  }
+  .avatarDai{
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
   }
 </style>
