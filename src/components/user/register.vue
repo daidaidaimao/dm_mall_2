@@ -1,6 +1,6 @@
 <template>
 <div class="box">
-    <el-form :model="u" :rules="rules" ref="u" label-width="100px" class="demo-ruleForm">
+    <el-form :model="u" :rules="rules" ref="u" label-width="100px" class="demo-ruleForm" style="background-color: hsla(0,0%,100%,.9)">
         <el-form-item label="用户名" prop="username">
         <el-input placeholder="请输入内容" v-model="u.username" maxlength="10" clearable onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
         </el-form-item>
@@ -14,7 +14,7 @@
         <el-form-item>
             <el-button type="primary" @click="submitForm('u')">立即注册</el-button>
             <el-button @click="resetForm('u')">重置</el-button>
-            <el-button @click="gologin('u')">已有账号?点我去登陆</el-button>
+            <el-button @click="gologin('u')" style="margin-top: 3%">已有账号?点我去登陆</el-button>
         </el-form-item>
     </el-form>
 <!--    <el-image-->

@@ -34,7 +34,7 @@
       header-align="center"
       show-overflow-tooltip>
         <template slot-scope="scope">
-          <el-input-number v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id)" :min="1" :max="100" label="商品数量"></el-input-number>
+          <el-input-number v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id,scope.row.productId)" :min="1" :max="5" label="商品数量"></el-input-number>
 <!--            <el-input type="number" v-model="scope.row.productNum" @change="updateNum(scope.row.productNum,scope.row.id)" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></el-input>-->
         </template>
     </el-table-column>
@@ -194,7 +194,12 @@ export default {
                 }
             })
         },
-        updateNum(a,b){
+        updateNum(a,b,c){
+          getRequest('/product/queryOne?productId='+c).then( resp =>{
+            if(a > resp.data.productNum){
+              alert("该商品库存不足，发货会慢");
+            }
+          });
             getRequest('/user/updateNum?productNum='+a+'&id='+b).then(resp=>{
                 if(resp.data.status ===200){
                     console.log(a,b);

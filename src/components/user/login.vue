@@ -1,7 +1,6 @@
 <template>
     <div class="box">
-        <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm" >
-
+        <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm" style="background-color: hsla(0,0%,100%,.9)">
             <el-form-item label="用户名" prop="username">
                 <el-input v-model="user.username" placeholder="请输入用户名" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"></el-input>
             </el-form-item>

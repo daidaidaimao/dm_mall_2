@@ -32,7 +32,8 @@
                 <span class="num_2">数量</span>
 <!--                <input type="number" v-model="p_num" placeholder="1" class="num_3" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')" @change="kucun(p_num,product.productNum)">-->
               <el-input-number v-model="p_num" @change="kucun(p_num,product.productNum)" :min="1" :max="100" label="描述文字"></el-input-number>
-                <span class="kucun">(库存：{{product.productNum}}件)</span>
+                <span class="kucun" v-if="product.productNum>5">(库存：{{product.productNum}}件)</span>
+              <span class="kucun" v-if="product.productNum<5">(库存较少)</span>
             </div>
             <span class="feihua" >承诺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="el-icon-warning"></i>7天无理由</span>
             <span class="mmh">支付&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;信用卡 微信 支付宝</span>
