@@ -34,13 +34,13 @@
           :fit="fit"
           class="pic"/></div></el-col>
       <el-col :span="15"><div class="grid-content bg-purple-light">
-        <el-input v-model="input" placeholder="外套男春夏装" style="width:65%;margin-top: 10%"/><el-button type="primary" icon="el-icon-search">搜索</el-button>
+        <el-input v-model="input" placeholder="外套男春夏装" style="width:65%;margin-top: 10%"/><el-button type="primary" icon="el-icon-search" @click="dosearch(input)">搜索</el-button>
       </div></el-col>
       <el-col :span="1"><div class="grid-content bg-purple" style="display: inline-block">
         </div>
       </el-col>
     </el-row>
-    <router-view />
+    <router-view :key="key"/>
     <router-view name="left"/>
       <router-view name="right" :key="key"/>
       <el-divider></el-divider>
@@ -152,7 +152,8 @@ export default {
           let ticket = this.$cookies.get("TICKET");
             getRequest('/user/out?ticket='+ticket).then( resp => {
             this.$cookies.remove("TICKET");
-            this.reload()
+            this.$router.push('/');
+            this.reload();
           })
         }else if(command === "person"){
               this.$router.push('/detail/'+ticket);
@@ -194,9 +195,10 @@ export default {
         }
       },
     initData(val){
-
-
     },
+    dosearch(val){
+      this.$router.push({name:'search',query:{query:val}})
+    }
   },
   mounted:function(){
     // this.getStatus();

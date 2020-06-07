@@ -1,18 +1,17 @@
 <template>
 <div>
   <el-tabs type="border-card">
-  <el-tab-pane label="微信支付">微信支付</el-tab-pane>
-  <el-tab-pane label="支付宝">配置管理</el-tab-pane>
-  <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-  <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+  <el-tab-pane label="微信支付">暂不支持</el-tab-pane>
+  <el-tab-pane label="支付宝"><el-button @click="aliPay(orderId)"> 前往付款</el-button></el-tab-pane>
+
 </el-tabs>
 <el-button type="primary" @click="pay(orderId)">我付完了！</el-button>
   <el-steps :active="2" align-center>
-    <el-step title="拍下物品" description="2020-4-9 16:48:30"></el-step>
-    <el-step title="付款到呆毛宝" description="2020-4-9 16:48:34"></el-step>
-    <el-step title="卖家发货" description="2020-4-9 16:48:54"></el-step>
-    <el-step title="确认收货" description="2020-4-9 16:48:54"></el-step>
-    <el-step title="评价" description="2020-4-9 16:48:54"></el-step>
+    <el-step title="拍下物品" description=""></el-step>
+    <el-step title="付款到呆毛宝" description=""></el-step>
+    <el-step title="卖家发货" description=""></el-step>
+    <el-step title="确认收货" description=""></el-step>
+    <el-step title="评价" description=""></el-step>
   </el-steps>
 </div>
 </template>
@@ -24,6 +23,10 @@ export default {
         return {
             orderId: this.$route.params.orderId,
             item :[],
+            htmls:"",
+          pName:"test",
+          order:{},
+          htmlData:"",
 
         }
     },
@@ -47,7 +50,24 @@ export default {
         });
             alert("付款成功");
             this.$router.push('/orderDetail/'+this.orderId)
-        }
+        },
+      aliPay(val){
+        getRequest('/user/queryOrderDetail?orderId='+val).then( resp =>{
+          this.order = resp.data;
+          getRequest('/user/alipay?orderId='+this.order.orderId+'&pName='+this.pName+'&orderMoney='+this.order.orderMoney).then( resp=>{
+            console.log(resp.data.data);
+            let routerData = this.$router.resolve({path:'/payGateWay',query:{ htmlData: resp.data.date}});
+            // 打开新页面
+            this.htmlData = resp.data.data;
+            // window.open(routerData.href, '_ blank');
+            const div = document.createElement('div');
+            div.innerHTML = this.htmlData;
+            document.body.appendChild(div);
+            document.forms[0].submit();
+
+          })
+        })
+      }
     }
 }
 </script>

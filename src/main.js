@@ -8,7 +8,7 @@ import '@smallwei/avue/lib/index.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueCookies from 'vue-cookies'
-import ECharts from 'vue-echarts'
+
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 // import 'ant-design-vue/dist/antd.css';
@@ -24,7 +24,8 @@ import VueCropper from 'vue-cropper'
 Vue.use(VueCropper);
 Vue.use(Buefy,);
 
-Vue.component('v-chart', ECharts);
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 Vue.use(VueCookies);
 Vue.use(ElementUI);

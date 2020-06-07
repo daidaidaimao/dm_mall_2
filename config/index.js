@@ -24,7 +24,14 @@ module.exports = {
         pathRewrite:{
           '^/user' : '/user'
         }
-      }
+      },
+      '/search' :{
+          target: 'http://localhost:8989',
+          changeOrigin:true,
+          pathRewrite:{
+            '^/search' : '/search'
+          }
+      },
     },
 
     // Various Dev Server settings
@@ -35,7 +42,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

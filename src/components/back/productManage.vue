@@ -59,7 +59,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[5, 20, 30, 40]"
+        :page-sizes="[20, 30, 40, 50]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
@@ -143,7 +143,7 @@ export default {
         },
       handleCurrentChange(val) {
             // console.log(`当前页: ${val}`);
-            this.initData(val,5);
+            this.initData(val,20);
       },
       addproduct(){
             // this.$layer.iframe({
@@ -172,7 +172,7 @@ export default {
 
     },
     mounted:function(){
-        this.initData(1,5);
+        this.initData(1,20);
     }
 }
 </script>

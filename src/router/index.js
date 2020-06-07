@@ -199,7 +199,15 @@ export default new Router({
             });
           },
           component:pay =>import('@/components/user/paymoney')
+        },
+        {
+          path:'/aliPay',
+          component:aliPay =>import('../components/user/aliPay')
         },{
+          path:'/search',
+          name:'search',
+          component:search =>import('../components/searchList')
+        }, {
           path:'/comment/:orderId',
           beforeEnter: (to,from,next)=>{
             let orderId = to.params.orderId;
@@ -292,6 +300,12 @@ export default new Router({
         },{
           path: 'fahuo',
           component: fahuo => import('@/components/back/fahuo')
+        },{
+          path:'echart',
+          component:echars => import('../components/back/echarts')
+        },{
+          path:'orderEcharts',
+          component:orderEcharts =>import('../components/back/orderEcharts')
         }
 
       ]

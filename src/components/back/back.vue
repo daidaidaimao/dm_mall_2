@@ -25,9 +25,9 @@
           <el-menu-item index="2-2" class="el-icon-s-grid">商品总览</el-menu-item>
           <el-menu-item index="2-3" disabled>商品编辑</el-menu-item>
           <el-menu-item index="2-4" class="el-icon-circle-plus">商品添加</el-menu-item>
-          <el-menu-item index="2-5">商品销售数据</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group title="图表分析">
+          <el-menu-item index="2-5">每日订单量走势图</el-menu-item>
           <el-menu-item index="2-6">销售情况汇总</el-menu-item>
         </el-menu-item-group>
         <!-- <el-submenu index="2-4">
@@ -42,13 +42,8 @@
           <el-menu-item index="3-1">用户总览</el-menu-item>
           <!-- <el-menu-item index="3-2">选项2</el-menu-item> -->
         </el-menu-item-group>
-        <el-menu-item-group title="用户行为分析">
-          <el-menu-item index="3-3">未完成</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="3-4">
-          <template slot="title">未完成</template>
-          <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-        </el-submenu>
+
+
       </el-submenu>
       <el-submenu index="4">
         <template slot="title"><i class="el-icon-setting"/>订单管理</template>
@@ -83,7 +78,7 @@
     <el-main>
       <router-view/>
     </el-main>
-    <el-footer>Footer</el-footer>
+    <el-footer>欢迎使用后台</el-footer>
   </el-container>
 </el-container>
 
@@ -121,6 +116,8 @@
         this.$router.go(-1)
       }else if(key === '6-2'){
         this.$router.push('/')
+      }else if(key ==='2-5'){
+        this.$router.push('/daimao/orderEcharts')
       }
       }
     }
@@ -146,7 +143,7 @@
   /*margin: 0 auto*/
 }
 .el-main{
-    background-color: cornflowerblue;
+    /*background-color: cornflowerblue;*/
 }
 .el-footer{
     background-color: darkgray;

@@ -11,13 +11,15 @@
       label="username"
       prop="username">
     </el-table-column>
-    <el-table-column
-      label="密码"
-      prop="password">
-    </el-table-column>
+<!--    <el-table-column-->
+<!--      label="密码"-->
+<!--      prop="password">-->
+<!--    </el-table-column>-->
        <el-table-column
        label="在线状态">
-         <template slot-scope="scope">{{ getOnline(scope.row.userId)}}</template>
+         <template slot-scope="scope">
+           {{getOnline(scope.row.userId)}}
+         </template>
        </el-table-column>
     <el-table-column
       label="状态"
@@ -26,7 +28,7 @@
       filter-placement="bottom-end"
       >
       <template slot-scope="scope">
-          {{ getStatus(scope.row.status) }}<el-button type="primary" size="small" >{{ caozuo}} </el-button>
+          {{ getStatus(scope.row.status) }}<el-button type="primary" size="small" @click="changState(scope.row.userId)">{{ caozuo}} </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -35,17 +37,19 @@
 <script>
 import {getRequest} from '@/utils/api.js'
 export default {
+  inject: ['reload'],
     data: function(){
         return{
             user:[],
             caozuo:"",
-
+            status:false,
         }
     },
     methods:{
         initUser(){
             getRequest('/user/showUser').then( resp=>{
                 this.user = resp.data.data;
+                // console.log(this.user);
             })
         },
         getStatus(val){
@@ -61,18 +65,26 @@ export default {
             return row.status === value;
         },
       inOnlie(val){
-          // var test ="";
           getRequest('/user/OnlineUser?userId='+val).then( resp =>{
-            console.log(resp.data.message)
-            // test = resp.data.message;
-            // if (resp.data.status === 200)
-            //   return "在线";
-            // else
-            //   return "离线";
             this.$cookies.set(val,resp.data.message);
+            // console.log(resp.data);
+            // if(resp.data.status === 200){
+            //   this.status =true;
+            // }else{
+            //   this.status =false;
+            // }
             // return resp.data.message
-          })
+          });
+          // return b;
 
+      },
+      changState(val){
+          getRequest('/user/changeStatus?userId='+val).then( resp=>{
+            if(resp.data.status ===200){
+              alert("操作成功");
+              this.reload();
+            }
+          })
       },
       getOnline(val){
           this.inOnlie(val);

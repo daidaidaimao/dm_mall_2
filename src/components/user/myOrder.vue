@@ -5,6 +5,7 @@
              type="search"
              size="is-small"
              class="searchOrder"
+             v-model="orderId"
              >
     </b-input>
     <b-button @click="searchOrder" size="is-small" class="searchButton">订单搜索</b-button>
@@ -14,13 +15,14 @@
       <b-field label="交易状态"
                :label-position="labelPosition"
                 class="orderStatus">
-        <b-select placeholder="全   部">
-          <option value="0">全部</option>
-          <option value="1">等待买家付款</option>
-          <option value="2">买家已付款</option>
-          <option value="3">卖家已发货</option>
-          <option value="6">交易成功</option>
-          <option value="7">交易关闭</option>
+        <b-select placeholder="全   部" id="status">
+          <option value="-2">全部</option>
+          <option value="0">等待买家付款</option>
+          <option value="1">买家已付款</option>
+          <option value="2">卖家已发货</option>
+          <option value="3">订单等待评价</option>
+          <option value="4">交易成功</option>
+          <option value="-1">交易关闭</option>
         </b-select>
       </b-field>
       <b-field label="成交时间" :label-position="labelPosition" class="orderTime">
@@ -141,7 +143,7 @@
          <b-button  @click="confirmReceipt(scope.row.orderId)" v-if="scope.row.status === 2">确认收货</b-button>
          <b-button  @click="toComment(scope.row.orderId)" v-if="scope.row.status === 3">评价订单</b-button>
          <el-button  icon="el-icon-delete" circle style="display: inline-block;float: right" title="删除该订单" v-if="scope.row.status ===3||scope.row.status ===4|| scope.row.status === -1 "
-                     @click="open"
+                     @click="open(scope.row.orderId)"
          ></el-button>
        </template>
      </el-table-column>
@@ -187,8 +189,10 @@ export default {
             moreLimit:false,
             isAdvanced:false,
             bName:"更多筛选条件",
+            orderId:"",
         }
     },
+
     inject: ['reload'],
     methods:{
       // countDownS_cb: function (x) {
@@ -341,7 +345,26 @@ export default {
         })
       },
       searchOrder(val){
-          alert("nothing");
+          var status = document.getElementById("status").value;
+          // console.log(status,this.dates,this.orderId);
+        var startDtm="";
+        var endDtm="";
+        if(this.dates.length===2) {
+          let d = this.dates[0];
+          let month = d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+          let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+          startDtm = d.getFullYear() + '-' + month + '-' + day;
+          let e = this.dates[1];
+          let month2 = e.getMonth() + 1 < 10 ? "0" + (e.getMonth() + 1) : e.getMonth() + 1;
+          let day2 = e.getDate() < 10 ? "0" + e.getDate() : e.getDate();
+          endDtm = e.getFullYear() + '-' + month2 + '-' + day2;
+        }
+        // console.log(startDtm,endDtm);
+        // console.log(this.dates[0].getDate())
+          getRequest('/user/orderSearch?orderId='+this.orderId+'&startDtm='+startDtm+'&endDtm='+endDtm+'&status='+status+'&userId='+this.userId).then(resp=>{
+            console.log(resp.data.data);
+            this.order = resp.data.data;
+          })
       },
       showLimit(val){
           this.isAdvanced = !this.isAdvanced;
@@ -354,7 +377,8 @@ export default {
             this.bName = "更多筛选条件";
           }
       },
-      open(){
+      open(val){
+          // console.log(2333);
         this.$confirm('此操作将永久删除该订单,不可恢复, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -362,7 +386,10 @@ export default {
         }).then(() => {
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: '删除成功!',
+            onConfirm:getRequest('/user/deleteOrderByOrderId?userId='+this.userId+'&orderId='+val).then( resp =>{
+              this.reload();
+            }),
           });
         }).catch(() => {
           this.$message({

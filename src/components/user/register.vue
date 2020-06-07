@@ -83,7 +83,7 @@ export default {
                     postRequest('/user/register',user).then( resp => {
                         if(resp.data.status === 200){
                             alert("注册成功 点击确定转入登陆界面");
-                            this.$router.push('/');
+                            this.$router.push('/login');
                         }
                         else{
                             alert(resp.data.message);

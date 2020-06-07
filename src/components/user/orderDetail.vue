@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-steps :active="statusIndex" align-center v-if="order.status !== -1">
-      <el-step title="拍下物品" description="2020-4-9 16:48:30"></el-step>
-      <el-step title="付款到呆毛宝" description="2020-4-9 16:48:34"></el-step>
-      <el-step title="卖家发货" description="2020-4-9 16:48:54"></el-step>
-      <el-step title="确认收货" description="2020-4-9 16:48:54"></el-step>
-      <el-step title="评价" description="2020-4-9 16:48:54"></el-step>
+      <el-step title="拍下物品" description=""></el-step>
+      <el-step title="付款到呆毛宝" description=""></el-step>
+      <el-step title="卖家发货" description=""></el-step>
+      <el-step title="确认收货" description=""></el-step>
+      <el-step title="评价" description=""></el-step>
     </el-steps>
 <!--   orderID: {{orderId}}-->
     <el-container class="orderContainer">
@@ -23,7 +23,8 @@
       <ul style="text-align: left;margin-left: 20%;margin-top: 3%">
         <li><p style="font-size: 12px">您还有6天8小时41分37秒;来确认收货,超时订单自动确认收货</p></li>
         <li><p style="font-size: 12px"> 物流：邮政快递包裹运单号:9898553888408</p></li>
-        <li><p style="font-size: 12px"> 2020-04-09 18:35:22 您已在南京青年城绯云苑5栋店完成取件，感谢使用菜鸟驿站，期待再次为您服务。</p></li>
+
+        <li><p style="font-size: 12px"> <span>{{ time }}</span> 您已在南京青年城绯云苑5栋店完成取件，感谢使用菜鸟驿站，期待再次为您服务。</p></li>
         <li style="margin-top: 5%;line-height: 27px"><p style="font-size: 12px"><span>您可以</span> <b-button size="is-small" @click="confirmReceipt(orderId)">确认收货</b-button></p></li>
       </ul>
       </el-main>
@@ -50,7 +51,7 @@
         <ul style="text-align: left;margin-left: 20%;margin-top: 3%">
 <!--          <li><p style="font-size: 12px">您还有6天8小时41分37秒;来确认收货,超时订单自动确认收货</p></li>-->
           <li><p style="font-size: 12px"> 物流：邮政快递包裹运单号:9898553888408</p></li>
-          <li><p style="font-size: 12px"> 2020-04-09 18:35:22 您已在南京青年城绯云苑5栋店完成取件，感谢使用菜鸟驿站，期待再次为您服务。</p></li>
+          <li><p style="font-size: 12px"> 2020-5-13 16:25:37 您已在南京青年城绯云苑5栋店完成取件，感谢使用菜鸟驿站，期待再次为您服务。</p></li>
           <li style="margin-top: 5%"><p style="font-size: 12px"><span>您可以</span> <router-link :to="'/comment/'+order.orderId">评价</router-link> 备忘</p></li>
         </ul>
       </el-main>
@@ -59,7 +60,7 @@
         <ul style="text-align: left;margin-left: 20%;margin-top: 3%">
           <!--          <li><p style="font-size: 12px">您还有6天8小时41分37秒;来确认收货,超时订单自动确认收货</p></li>-->
           <li><p style="font-size: 12px"> 物流：邮政快递包裹运单号:9898553888408</p></li>
-          <li><p style="font-size: 12px"> 2020-04-09 18:35:22 您已在南京青年城绯云苑5栋店完成取件，感谢使用菜鸟驿站，期待再次为您服务。</p></li>
+          <li><p style="font-size: 12px"> 2020-5-13 16:25:41 您已在南京青年城绯云苑5栋店完成取件，感谢使用菜鸟驿站，期待再次为您服务。</p></li>
           <li style="margin-top: 5%"><p style="font-size: 12px"><span>您可以</span>  备忘</p></li>
         </ul>
       </el-main>
@@ -114,6 +115,7 @@ export default {
         order:{},
         orderItem:[],
         ali:require('@/assets/plist/ali.png'),
+        time:"",
       }
   },
   inject: ['reload'],
@@ -121,6 +123,7 @@ export default {
     initOrderItem(val){
       getRequest('/user/queryItem?orderId='+val).then( resp => {
         this.orderItem = resp.data;
+        this.time =  this.$cookies.get("time");
         console.log(this.orderItem);
         getRequest('/user/queryOrderDetail?orderId='+val).then(  resp =>{
           this.order = resp.data;

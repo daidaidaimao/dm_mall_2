@@ -52,7 +52,7 @@
       show-overflow-tooltip
     >
       <template slot-scope="scope">
-        <p style="color: #f40;font-weight: bold;font-size: 15px">￥{{scope.row.productNum * scope.row.productPrice}}</p>
+        <p style="color: #f40;font-weight: bold;font-size: 15px">￥{{(scope.row.productNum * scope.row.productPrice).toFixed(2)}}</p>
       </template>
     </el-table-column>
     <el-table-column
@@ -135,7 +135,7 @@ export default {
             //             // this.reload();
             //         }else{
                         getRequest('/user/queryUsername?userId='+val).then(resp => {
-                            console.log(resp.data);
+                            // console.log(resp.data);
                             let username = resp.data;
                             getRequest('/user/showCart?username='+username).then( resp=>{
                                 this.cart = resp.data.data;
@@ -154,7 +154,7 @@ export default {
         },
         handleSelectionChange(val){
             this.checked = val;
-            let  p = 0
+            let  p = 0;
             for(var i = 0;i<this.checked.length;i++){
                p += this.checked[i].productNum*this.checked[i].productPrice*100;
             }

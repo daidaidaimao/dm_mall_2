@@ -61,16 +61,16 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">立即创建</el-button>
-                <el-button>取消</el-button>
+<!--                <el-button>取消</el-button>-->
             </el-form-item>
         </el-form>
   </div>
   <el-steps :active="1" align-center>
-  <el-step title="拍下物品" description="2020-4-9 16:48:30"></el-step>
-  <el-step title="付款到呆毛宝" description="2020-4-9 16:48:34"></el-step>
-  <el-step title="卖家发货" description="2020-4-9 16:48:54"></el-step>
-    <el-step title="确认收货" description="2020-4-9 16:48:54"></el-step>
-    <el-step title="评价" description="2020-4-9 16:48:54"></el-step>
+  <el-step title="拍下物品" description=""></el-step>
+  <el-step title="付款到呆毛宝" description=""></el-step>
+  <el-step title="卖家发货" description=""></el-step>
+    <el-step title="确认收货" description=""></el-step>
+    <el-step title="评价" description=""></el-step>
 </el-steps>
 </div>
 </template>
@@ -90,7 +90,9 @@ export default {
                 address:"",
                 userId:this.$route.params.userId,
                 clist:"",
+
             },
+          time:new Date(),
 
         }
     },
@@ -115,6 +117,8 @@ export default {
             }else{
                 this.cart = JSON.parse(this.$cookies.get(val));
                 this.order.orderMoney = this.$cookies.get("money");
+
+                this.$cookies.set("time",this.time);
                 // this.item = JSON.parse(this.$cookies.get(val));
                 // console.log(this.cart);
                     }
@@ -128,8 +132,11 @@ export default {
             // console.log(this.order);
             // console.log(JSON.stringify(this.order))
             // console.log(JSON.stringify(this.order.item))
-            this.order.clist = JSON.stringify(this.cart)
-            console.log(this.order)
+            if(this.order.address === ""){
+              alert("请填写收货地址");
+            }else{
+            this.order.clist = JSON.stringify(this.cart);
+            console.log(this.order);
             testRequest('/user/addOrder',this.order).then( resp =>{
                 alert(resp.data.message);
                 this.$cookies.remove("money");
@@ -147,6 +154,7 @@ export default {
                 this.$router.push('/pay/'+resp.data.data.orderId);
 
             })
+        }
         }
     },
     mounted:function(){

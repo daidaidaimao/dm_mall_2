@@ -64,7 +64,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[5, 20, 30, 40]"
+        :page-sizes="[6, 20, 30, 40]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
@@ -119,7 +119,7 @@ export default {
         },
         handleCurrentChange(val) {
             // console.log(`当前页: ${val}`);
-            this.productList(val,5);
+            this.productList(val,6);
         },
         goDetail(val){
             this.$router.push({name: 'productDetail',params:{productId:val}})
@@ -132,7 +132,7 @@ export default {
 
     },
     mounted:function(){
-        this.productList(1,5);
+        this.productList(1,6);
         this.initCategoryName(this.productCategory)
     }
 }

@@ -53,7 +53,7 @@
         <article class="media">
           <figure class="media-left">
             <p class="image is-64x64">
-              <img :src="aurl">
+              <img :src="c.aurl" class="avatarDai">
             </p>
           </figure>
           <div class="media-content">
@@ -139,7 +139,7 @@ export default {
                 productName:""
             },
           comment:[],
-          aurl:"",
+          // aurl:"",
         }
     },
     methods:{
@@ -204,16 +204,16 @@ export default {
             // console.log(val)
             this.comment = resp.data;
             console.log(this.comment);
-            var i;
-            for (i=0;i<this.comment.length;i++) {
-              getRequest('/user/partDetail?userId=' + this.comment[i].userId).then(resp => {
-                if (resp.data.status === 200) {
-                  this.aurl = resp.data.data.avatarUrl;
-                } else {
-                  alert(resp.data.message);
-                }
-              })
-            }
+            // var i;
+            // for (i=0;i<this.comment.length;i++) {
+            //   getRequest('/user/partDetail?userId=' + this.comment[i].userId).then(resp => {
+            //     if (resp.data.status === 200) {
+            //       this.aurl = resp.data.data.avatarUrl;
+            //     } else {
+            //       alert(resp.data.message);
+            //     }
+            //   })
+            // }
             // var i ;
             //   for (i=0; i<this.comment.length; i++){
             //     console.log(this.comment[i].userId);
@@ -287,5 +287,10 @@ export default {
 .mmh{
     font-size: 13px;
     color: grey;
+}
+.avatarDai{
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
 }
 </style>
