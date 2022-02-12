@@ -18,7 +18,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "@mdi/font": "^5.0.45",
     "@smallwei/avue": "^2.3.7",
-    "ajv": "^6.9.1",
+    "ajv": "^6.12.3",
     "ant-design-vue": "^1.4.10",
     "babel-loader": "^7.1.5",
     "buefy": "^0.8.9",
